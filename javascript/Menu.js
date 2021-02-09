@@ -13,17 +13,24 @@ function selector() {
     var infix = document.getElementById("infixSelect")
     var prefix = document.getElementById("prefixSelect")
     var postfix = document.getElementById("postfixSelect")
-
+    var dropdownMenuButton = document.getElementById("dropdownMenuButton")
+    
     infix.onclick = function () {
-        document.getElementById("dropdownMenuButton").innerHTML ="Infix Expression";
+        dropdownMenuButton.innerHTML ="Infix Expression";
+        dropdownMenuButton.classList.remove("btn-secondary");
+        dropdownMenuButton.classList.add("btn-success");
     }
 
     prefix.onclick = function () {
-        document.getElementById("dropdownMenuButton").innerHTML ="Prefix Expression";
+        dropdownMenuButton.innerHTML ="Prefix Expression";
+        dropdownMenuButton.classList.remove("btn-secondary");
+        dropdownMenuButton.classList.add("btn-success");
     }
 
     postfix.onclick = function () {
-        document.getElementById("dropdownMenuButton").innerHTML ="Postfix Expression";
+        dropdownMenuButton.innerHTML ="Postfix Expression";
+        dropdownMenuButton.classList.remove("btn-secondary");
+        dropdownMenuButton.classList.add("btn-success");
     }
 }
 
