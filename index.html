@@ -25,30 +25,31 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light" id="nav">
         <div class="container-fluid">
             <span class="navbar-brand me-2">Infix Prefix Postfix Visualizer</span>
+            
             <div class="d-flex">
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                <input class="form-control" id="expressionPlaceholder" type="text" placeholder="Insert expression"
+                    aria-label="Expression placeholder">
+                <div class="dropdown" style="margin-left:10px;">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButtonType"
                         data-bs-toggle="dropdown" aria-expanded="false">Expression type</button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item" id="infixSelect" href="#">Infix Expression</a></li>
-                        <li><a class="dropdown-item" id="prefixSelect" href="#">Prefix Expression</a></li>
-                        <li><a class="dropdown-item" id="postfixSelect" href="#">Postfix Expression</a></li>
+                        <li><a class="dropdown-item" id="infixSelectType" href="#">Infix Expression</a></li>
+                        <li><a class="dropdown-item" id="prefixSelectType" href="#">Prefix Expression</a></li>
+                        <li><a class="dropdown-item" id="postfixSelectType" href="#">Postfix Expression</a></li>
                     </ul>
                 </div>
-                <input class="form-control" id="expressionPlaceholder" type="text"
-                    placeholder="Insert expression" aria-label="Expression placeholder">
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                <div class="dropdown" style="margin-left:10px;" >
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButtonConvert"
                         data-bs-toggle="dropdown" aria-expanded="false">Convert to</button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item" id="infixSelect" href="#">Infix Expression</a></li>
-                        <li><a class="dropdown-item" id="prefixSelect" href="#">Prefix Expression</a></li>
-                        <li><a class="dropdown-item" id="postfixSelect" href="#">Postfix Expression</a></li>
+                        <li><a class="dropdown-item" id="infixSelectConvert" href="#">Infix Expression</a></li>
+                        <li><a class="dropdown-item" id="prefixSelectConvert" href="#">Prefix Expression</a></li>
+                        <li><a class="dropdown-item" id="postfixSelectConvert" href="#">Postfix Expression</a></li>
                     </ul>
+                    
                 </div>
             </div>
             <button type="button" id="visualizeBtn" class="btn btn-outline-success">Visualize</button>
-
         </div>
     </nav>
     <div>
