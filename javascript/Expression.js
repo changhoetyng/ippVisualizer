@@ -43,23 +43,97 @@ function checkExpressionValid(expressionPlaceholder) {
     }
 
     if(noOperands - noOperators !== 1 || closeBrackets != [openBrackets]){
-        visualizeBtn.innerHTML = "Invalid Equation"
-        visualizeBtn.classList.remove("btn-outline-secondary");
-        visualizeBtn.classList.add("btn-outline-warning");
+        invalidEquation()
         return false
     }
 
     if(dropdownMenuButton.classList.contains("infixType")){
         console.log("infix")
+        console.log(checkInfix(expression))
     }
 
     if(dropdownMenuButton.classList.contains("prefixType")){
         console.log("prefix")
+        console.log(checkPrefix(expression))
     }
 
     if(dropdownMenuButton.classList.contains("postfixType")){
         console.log("postfix")
     }
 
+    return true
+}
+
+function invalidEquation() {
+    visualizeBtn.innerHTML = "Invalid Equation"
+    visualizeBtn.classList.remove("btn-outline-secondary");
+    visualizeBtn.classList.add("btn-outline-warning");
+}
+
+function checkInfix(expression){  
+    var check = true
+    for (var i = 0; i < expression.length; i++) {
+        var expressionChar = expression.charAt(i);
+
+        if(expressionChar.match(/[A-Z]/i)){
+            if(check==true) check = false
+            else return false
+        }
+
+        if(expressionChar.match(/[+|-|*|\/]/i)){
+            if(check==false) check = true
+            else return false
+        }
+
+        if(expressionChar.match(/[(]/i)){
+            if(check!=true) return false
+        }
+
+        if(expressionChar.match(/[)]/i)){
+            if(check!=false) return false
+        }
+    }
+    return true
+}
+
+function checkPrefix(expression){  
+    
+    for (var i = 0; i < expression.length; i++) {
+        var expressionChar = expression.charAt(i);
+
+        if(expressionChar.match(/[+|-|*|\/]/i)){
+            break
+        }
+
+        if(expressionChar.match(/[(]/i)){
+            continue
+        }
+
+        if(expressionChar.match(/[)]/i)){
+            continue
+        }
+
+        if(expressionChar.match(/[A-Z]/i)){
+            return false
+        }
+    }
+
+    var j = expression.length - 1
+
+    while (j != 0) {
+        var expressionChar = expression.charAt(j)
+
+        console.log(expressionChar)
+
+        if(expressionChar.match(/[+|-|*|\/]/i)){
+            return false
+        }
+
+        if(expressionChar.match(/[A-Z]/i)){
+            break
+        }
+
+        j--;
+    }
     return true
 }
