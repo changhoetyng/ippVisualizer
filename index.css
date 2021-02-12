@@ -1,7 +1,8 @@
 #instructions {
     position: absolute;
     z-index: 1000;
-    background-color: rgba(255, 255, 255, 0.685);
+    /* background-color: rgba(255, 255, 255, 0.685); */
+    background:white;
     width: 50%;
     height: 70%;
     border: 2px solid #34495e;
@@ -16,6 +17,28 @@
     transition: top 0.4s, opacity 0.4s;
   }
 
-  #nav {
-    pointer-events: none;
-  }
+#nav {
+  pointer-events: none;
+}
+
+.dispExpression {
+  width: 40px;
+  height:40px;
+  border:1px solid #000;
+  text-align: center;
+}
+
+.outputExpression {
+  width: 40px;
+  height:40px;
+  border:1px solid #000;
+  text-align: center;
+}
+
+.stack {
+  width: 80px;
+  height:500px;
+  border:1px solid #000;
+  border-top: none;
+  text-align: center;
+}

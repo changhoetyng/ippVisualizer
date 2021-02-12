@@ -4,7 +4,7 @@ export function retrieveFunction() {
     visualizeBtn.onclick = function () {
       const expressionPlaceholder = document.getElementById("expressionPlaceholder").value
       if(checkExpressionValid(expressionPlaceholder)){
-          console.log("conversion began")
+          
       }
     }
 }
@@ -48,17 +48,18 @@ function checkExpressionValid(expressionPlaceholder) {
     }
 
     if(dropdownMenuButton.classList.contains("infixType")){
-        console.log("infix")
-        console.log(checkInfix(expression))
+        var infix = checkInfix(expression)
+        if(!infix) {invalidEquation(); return false}
     }
 
     if(dropdownMenuButton.classList.contains("prefixType")){
-        console.log("prefix")
-        console.log(checkPrefix(expression))
+        var prefix = checkPrefix(expression)
+        if(!prefix) {invalidEquation(); return false}
     }
 
     if(dropdownMenuButton.classList.contains("postfixType")){
-        console.log("postfix")
+        var postfix = checkPostfix(expression)
+        if(!postfix) {invalidEquation(); return false}
     }
 
     return true
@@ -130,6 +131,46 @@ function checkPrefix(expression){
         }
 
         if(expressionChar.match(/[A-Z]/i)){
+            break
+        }
+
+        j--;
+    }
+    return true
+}
+
+function checkPostfix(expression){  
+    
+    for (var i = 0; i < expression.length; i++) {
+        var expressionChar = expression.charAt(i);
+        
+        if(expressionChar.match(/[A-Z]/i)){
+            break
+        }
+
+        if(expressionChar.match(/[(]/i)){
+            continue
+        }
+
+        if(expressionChar.match(/[)]/i)){
+            continue
+        }
+
+        if(expressionChar.match(/[+|-|*|\/]/i)){
+            return false
+        }
+    }
+
+    var j = expression.length - 1
+
+    while (j != 0) {
+        var expressionChar = expression.charAt(j)
+
+        if(expressionChar.match(/[A-Z]/i)){
+            return false
+        }
+
+        if(expressionChar.match(/[+|-|*|\/]/i)){
             break
         }
 
