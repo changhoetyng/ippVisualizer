@@ -1,10 +1,12 @@
+import {animate} from "./conversion/Animate.js"
+
 export function retrieveFunction() {
     var visualizeBtn = document.getElementById("visualizeBtn")
     
     visualizeBtn.onclick = function () {
       const expressionPlaceholder = document.getElementById("expressionPlaceholder").value
       if(checkExpressionValid(expressionPlaceholder)){
-          
+        //   animate()
       }
     }
 }
