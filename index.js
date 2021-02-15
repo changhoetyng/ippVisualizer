@@ -5,5 +5,4 @@ import {animate} from "./javascript/conversion/Animate.js"
 window.onload = function(){ 
     menu()
     retrieveFunction()
-    animate()
 };

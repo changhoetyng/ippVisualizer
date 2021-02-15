@@ -53,8 +53,8 @@ function selectorConvert() {
         dropdownMenuButton.classList.remove("btn-secondary");
         dropdownMenuButton.classList.add("btn-success");
         dropdownMenuButton.classList.add("infixConvert");
-        dropdownMenuButton.classList.add("prefixConvert");
-        dropdownMenuButton.classList.add("postfixConvert");
+        dropdownMenuButton.classList.remove("prefixConvert");
+        dropdownMenuButton.classList.remove("postfixConvert");
     }
 
     prefix.onclick = function () {
@@ -62,8 +62,8 @@ function selectorConvert() {
         dropdownMenuButton.classList.remove("btn-secondary");
         dropdownMenuButton.classList.add("btn-success");
         dropdownMenuButton.classList.add("prefixConvert");
-        dropdownMenuButton.classList.add("infixConvert");
-        dropdownMenuButton.classList.add("postfixConvert");
+        dropdownMenuButton.classList.remove("infixConvert");
+        dropdownMenuButton.classList.remove("postfixConvert");
     }
 
     postfix.onclick = function () {
@@ -71,8 +71,8 @@ function selectorConvert() {
         dropdownMenuButton.classList.remove("btn-secondary");
         dropdownMenuButton.classList.add("btn-success");
         dropdownMenuButton.classList.add("postfixConvert");
-        dropdownMenuButton.classList.add("infixConvert");
-        dropdownMenuButton.classList.add("prefixConvert");
+        dropdownMenuButton.classList.remove("infixConvert");
+        dropdownMenuButton.classList.remove("prefixConvert");
     }
 }
 

@@ -1,14 +1,36 @@
-import {animate} from "./conversion/Animate.js"
+import { animate } from "./conversion/Animate.js"
 
-export function retrieveFunction() {
+export async function retrieveFunction() {
     var visualizeBtn = document.getElementById("visualizeBtn")
-    
+
     visualizeBtn.onclick = function () {
-      const expressionPlaceholder = document.getElementById("expressionPlaceholder").value
-      if(checkExpressionValid(expressionPlaceholder)){
-        //   animate()
-      }
+        const expressionPlaceholder = document.getElementById("expressionPlaceholder").value
+        if (checkExpressionValid(expressionPlaceholder)) {
+            $('#visualizeBtn').addClass('disabled');
+            animate()
+        }
     }
+}
+
+function dropdownCheck() {
+    var dropdownMenuButton = document.getElementById("dropdownMenuButtonType")
+    var dropdownMenuButtonConvert = document.getElementById("dropdownMenuButtonConvert")
+
+    if (!dropdownMenuButton.classList.contains("infixType") && !dropdownMenuButton.classList.contains("prefixType") && !dropdownMenuButton.classList.contains("postfixType")) {
+        visualizeBtn.innerHTML = "Please select expression type"
+        visualizeBtn.classList.remove("btn-outline-secondary");
+        visualizeBtn.classList.add("btn-outline-warning");
+        return false
+    }
+
+    if (!dropdownMenuButtonConvert.classList.contains("infixConvert") && !dropdownMenuButtonConvert.classList.contains("prefixConvert") && !dropdownMenuButtonConvert.classList.contains("postfixConvert")) {
+        visualizeBtn.innerHTML = "Please select convert expression type"
+        visualizeBtn.classList.remove("btn-outline-secondary");
+        visualizeBtn.classList.add("btn-outline-warning");
+        return false
+    }
+
+    return true
 }
 
 function checkExpressionValid(expressionPlaceholder) {
@@ -24,44 +46,48 @@ function checkExpressionValid(expressionPlaceholder) {
     visualizeBtn.classList.add("btn-outline-secondary");
     visualizeBtn.classList.remove("btn-outline-warning");
 
+    if (!dropdownCheck()) {
+        return false
+    }
+
     for (var i = 0; i < expression.length; i++) {
         var expressionChar = expression.charAt(i);
 
-        if(expressionChar.match(/[A-Z]/i)){
+        if (expressionChar.match(/[A-Z]/i)) {
             noOperands++;
         }
 
-        if(expressionChar.match(/[+|-|*|\/]/i)){
+        if (expressionChar.match(/[+|-|*|\/]/i)) {
             noOperators++;
         }
 
-        if(expressionChar.match(/[(]/i)){
+        if (expressionChar.match(/[(]/i)) {
             openBrackets++;
         }
 
-        if(expressionChar.match(/[)]/i)){
+        if (expressionChar.match(/[)]/i)) {
             closeBrackets++;
         }
     }
 
-    if(noOperands - noOperators !== 1 || closeBrackets != [openBrackets]){
+    if (noOperands - noOperators !== 1 || closeBrackets != [openBrackets]) {
         invalidEquation()
         return false
     }
 
-    if(dropdownMenuButton.classList.contains("infixType")){
+    if (dropdownMenuButton.classList.contains("infixType")) {
         var infix = checkInfix(expression)
-        if(!infix) {invalidEquation(); return false}
+        if (!infix) { invalidEquation(); return false }
     }
 
-    if(dropdownMenuButton.classList.contains("prefixType")){
+    if (dropdownMenuButton.classList.contains("prefixType")) {
         var prefix = checkPrefix(expression)
-        if(!prefix) {invalidEquation(); return false}
+        if (!prefix) { invalidEquation(); return false }
     }
 
-    if(dropdownMenuButton.classList.contains("postfixType")){
+    if (dropdownMenuButton.classList.contains("postfixType")) {
         var postfix = checkPostfix(expression)
-        if(!postfix) {invalidEquation(); return false}
+        if (!postfix) { invalidEquation(); return false }
     }
 
     return true
@@ -73,50 +99,50 @@ function invalidEquation() {
     visualizeBtn.classList.add("btn-outline-warning");
 }
 
-function checkInfix(expression){  
+function checkInfix(expression) {
     var check = true
     for (var i = 0; i < expression.length; i++) {
         var expressionChar = expression.charAt(i);
 
-        if(expressionChar.match(/[A-Z]/i)){
-            if(check==true) check = false
+        if (expressionChar.match(/[A-Z]/i)) {
+            if (check == true) check = false
             else return false
         }
 
-        if(expressionChar.match(/[+|-|*|\/]/i)){
-            if(check==false) check = true
+        if (expressionChar.match(/[+|-|*|\/]/i)) {
+            if (check == false) check = true
             else return false
         }
 
-        if(expressionChar.match(/[(]/i)){
-            if(check!=true) return false
+        if (expressionChar.match(/[(]/i)) {
+            if (check != true) return false
         }
 
-        if(expressionChar.match(/[)]/i)){
-            if(check!=false) return false
+        if (expressionChar.match(/[)]/i)) {
+            if (check != false) return false
         }
     }
     return true
 }
 
-function checkPrefix(expression){  
-    
+function checkPrefix(expression) {
+
     for (var i = 0; i < expression.length; i++) {
         var expressionChar = expression.charAt(i);
 
-        if(expressionChar.match(/[+|-|*|\/]/i)){
+        if (expressionChar.match(/[+|-|*|\/]/i)) {
             break
         }
 
-        if(expressionChar.match(/[(]/i)){
+        if (expressionChar.match(/[(]/i)) {
             continue
         }
 
-        if(expressionChar.match(/[)]/i)){
+        if (expressionChar.match(/[)]/i)) {
             continue
         }
 
-        if(expressionChar.match(/[A-Z]/i)){
+        if (expressionChar.match(/[A-Z]/i)) {
             return false
         }
     }
@@ -128,11 +154,11 @@ function checkPrefix(expression){
 
         console.log(expressionChar)
 
-        if(expressionChar.match(/[+|-|*|\/]/i)){
+        if (expressionChar.match(/[+|-|*|\/]/i)) {
             return false
         }
 
-        if(expressionChar.match(/[A-Z]/i)){
+        if (expressionChar.match(/[A-Z]/i)) {
             break
         }
 
@@ -141,24 +167,24 @@ function checkPrefix(expression){
     return true
 }
 
-function checkPostfix(expression){  
-    
+function checkPostfix(expression) {
+
     for (var i = 0; i < expression.length; i++) {
         var expressionChar = expression.charAt(i);
-        
-        if(expressionChar.match(/[A-Z]/i)){
+
+        if (expressionChar.match(/[A-Z]/i)) {
             break
         }
 
-        if(expressionChar.match(/[(]/i)){
+        if (expressionChar.match(/[(]/i)) {
             continue
         }
 
-        if(expressionChar.match(/[)]/i)){
+        if (expressionChar.match(/[)]/i)) {
             continue
         }
 
-        if(expressionChar.match(/[+|-|*|\/]/i)){
+        if (expressionChar.match(/[+|-|*|\/]/i)) {
             return false
         }
     }
@@ -168,11 +194,11 @@ function checkPostfix(expression){
     while (j != 0) {
         var expressionChar = expression.charAt(j)
 
-        if(expressionChar.match(/[A-Z]/i)){
+        if (expressionChar.match(/[A-Z]/i)) {
             return false
         }
 
-        if(expressionChar.match(/[+|-|*|\/]/i)){
+        if (expressionChar.match(/[+|-|*|\/]/i)) {
             break
         }
 
