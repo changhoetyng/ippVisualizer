@@ -55,22 +55,19 @@ function checkExpressionValid(expressionPlaceholder) {
 
         if (expressionChar.match(/[A-Z]/i)) {
             noOperands++;
-        }
-
-        if (expressionChar.match(/[+|-|*|\/]/i)) {
+        } else if (expressionChar.match(/[+|\-|*|\/]/i)) {
             noOperators++;
-        }
-
-        if (expressionChar.match(/[(]/i)) {
+        } else if (expressionChar.match(/[(]/i)) {
             openBrackets++;
-        }
-
-        if (expressionChar.match(/[)]/i)) {
+        } else if (expressionChar.match(/[)]/i)) {
             closeBrackets++;
+        } else {
+            invalidEquation(); 
+            return false 
         }
     }
 
-    if (noOperands - noOperators !== 1 || closeBrackets != [openBrackets]) {
+    if (noOperands - noOperators !== 1 || closeBrackets != [openBrackets] || noOperands > 6) {
         invalidEquation()
         return false
     }
@@ -109,7 +106,7 @@ function checkInfix(expression) {
             else return false
         }
 
-        if (expressionChar.match(/[+|-|*|\/]/i)) {
+        if (expressionChar.match(/[+|\-|*|\/]/i)) {
             if (check == false) check = true
             else return false
         }
@@ -130,7 +127,7 @@ function checkPrefix(expression) {
     for (var i = 0; i < expression.length; i++) {
         var expressionChar = expression.charAt(i);
 
-        if (expressionChar.match(/[+|-|*|\/]/i)) {
+        if (expressionChar.match(/[+|\-|*|\/]/i)) {
             break
         }
 
@@ -154,7 +151,7 @@ function checkPrefix(expression) {
 
         console.log(expressionChar)
 
-        if (expressionChar.match(/[+|-|*|\/]/i)) {
+        if (expressionChar.match(/[+|\-|*|\/]/i)) {
             return false
         }
 
@@ -184,7 +181,7 @@ function checkPostfix(expression) {
             continue
         }
 
-        if (expressionChar.match(/[+|-|*|\/]/i)) {
+        if (expressionChar.match(/[+|\-|*|\/]/i)) {
             return false
         }
     }
@@ -198,7 +195,7 @@ function checkPostfix(expression) {
             return false
         }
 
-        if (expressionChar.match(/[+|-|*|\/]/i)) {
+        if (expressionChar.match(/[+|\-|*|\/]/i)) {
             break
         }
 

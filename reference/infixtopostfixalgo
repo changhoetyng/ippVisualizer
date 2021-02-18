@@ -1,0 +1,12 @@
+for input
+    if(+ - / *){
+        enterstack
+    }
+
+    if(stack same precedence){
+        stack -> output
+    }
+
+    if(alphabet){
+        output
+    }

@@ -20,19 +20,19 @@ async function expressionToInput() {
         await timer(duration)
     }
 
-    var dropdownMenuButton = document.getElementById("dropdownMenuButtonType")
+    var dropdownMenuButton = document.getElementById("dropdownMenuButtonConvert")
 
-    if (dropdownMenuButton.classList.contains("infixType")) {
-        await infixToPostfixStack()
+    if (dropdownMenuButton.classList.contains("infixConvert")) {
         $('#visualizeBtn').removeClass('disabled')
     }
 
-    if (dropdownMenuButton.classList.contains("prefixType")) {
-        
+    if (dropdownMenuButton.classList.contains("prefixConvert")) {
+        $('#visualizeBtn').removeClass('disabled')
     }
 
-    if (dropdownMenuButton.classList.contains("postfixType")) {
-        
+    if (dropdownMenuButton.classList.contains("postfixConvert")) {
+        await infixToPostfixStack()
+        $('#visualizeBtn').removeClass('disabled')
     }
 }
 
