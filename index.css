@@ -2,7 +2,7 @@
 @import "/css//mainTheme.css";
 @import "/css//instructions.css";
 @import "/css//buttons.css";
-
+@import "/css//text.css";
 
 #nav {
   pointer-events: none;
