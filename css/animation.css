@@ -35,7 +35,7 @@
 .dispExpression {
   width: 40px;
   height:40px;
-  background-color: rgb(160, 160, 160);
+  background-color: var(--main-color);
   text-align: center;
   font-weight: bold;
   font-size: 25px;
@@ -47,7 +47,7 @@
 
 #bottomPanelIn {
   height:40px;
-  border:3px solid #000;
+  border:3px solid var(--caret-color);
   border-top: none;
   border-right: none;
   border-bottom: none;
@@ -57,7 +57,7 @@
 
 #bottomPanelOut {
   height:40px;
-  border:3px solid #000;
+  border:3px solid var(--caret-color);
   border-top: none;
   border-right: none;
   border-bottom: none;
@@ -68,7 +68,7 @@
 .outputExpression {
   width: 40px;
   height:40px;
-  background-color: rgb(160, 160, 160);
+  background-color: var(--main-color);
   text-align: center;
   font-weight: bold;
   font-size: 25px;
@@ -81,7 +81,7 @@
 .stack {
   width: 44px;
   height:402px;
-  border:3px solid #000;
+  border:3px solid var(--caret-color);
   border-top: none;
   text-align: center;
 }

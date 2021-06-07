@@ -32,3 +32,4 @@
   box-shadow: none;
 }
 .dropdown-selection {background: var(--main-color)!important; color: var(--bg-color)!important;}
+.dropdown-menu > li > a:hover {background: var(--main-color)!important; color: var(--bg-color)!important;}

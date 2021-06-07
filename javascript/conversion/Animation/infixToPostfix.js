@@ -54,7 +54,8 @@ export default async function infixToPostfixStack() {
 
     for (const input of inputStack) {
         if (input.innerHTML.match(/[A-Z]/i)) {
-            input.style.color = "white"
+            //  operands moving color
+            input.style.color = "var(--main-color)"
             input.style.backgroundColor = "#E56B6B"
             input.animate([
                 { transform: 'translateX(0px)', offset: 0.0 },
@@ -72,7 +73,7 @@ export default async function infixToPostfixStack() {
             xValueInputToStack -= 40
             await timer(duration)
             input.style.color = "black"
-            input.style.backgroundColor = "#A0A0A0"
+            input.style.backgroundColor = "var(--main-color)"
         }
 
         if (input.innerHTML.match(/[+|\-|*|\/]/i)) {
@@ -92,8 +93,9 @@ export default async function infixToPostfixStack() {
                 }
             }
             
-            input.style.color = "white"
-            input.style.backgroundColor = "#E56B6B"
+            // operators moving color
+            input.style.color = "var(--main-color)" 
+            input.style.backgroundColor = "var(--caret-color)"
             input.animate([
                 { transform: 'translateX(0px)', offset: 0.0 },
                 { transform: 'translateY(0px) translateX(' + xValueInputToStack + 'px)', offset: 0.3 },
@@ -106,7 +108,7 @@ export default async function infixToPostfixStack() {
             yValueInputToStack -= 40
             await timer(duration)
             input.style.color = "black"
-            input.style.backgroundColor = "#A0A0A0"
+            input.style.backgroundColor = "var(--main-color)"
             console.log(stack)
         }
 

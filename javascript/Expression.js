@@ -6,7 +6,7 @@ export async function retrieveFunction() {
     visualizeBtn.onclick = function () {
         const expressionPlaceholder = document.getElementById("expressionPlaceholder").value
         if (checkExpressionValid(expressionPlaceholder)) {
-            $('#visualizeBtn').addClass('disabled');
+            $('#visualizeBtn').prop("disabled",true);
             animate()
         }
     }

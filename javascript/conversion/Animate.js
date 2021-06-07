@@ -23,16 +23,17 @@ async function expressionToInput() {
     var dropdownMenuButton = document.getElementById("dropdownMenuButtonConvert")
 
     if (dropdownMenuButton.classList.contains("infixConvert")) {
-        $('#visualizeBtn').removeClass('disabled')
+        $('#visualizeBtn').prop("disabled",false);
     }
 
     if (dropdownMenuButton.classList.contains("prefixConvert")) {
-        $('#visualizeBtn').removeClass('disabled')
+        $('#visualizeBtn').prop("disabled",false);
     }
 
     if (dropdownMenuButton.classList.contains("postfixConvert")) {
         await infixToPostfixStack()
-        $('#visualizeBtn').removeClass('disabled')
+        $('#visualizeBtn').removeClass('btn-outline-secondary');
+        $('#visualizeBtn').prop("disabled",false);
     }
 }
 
