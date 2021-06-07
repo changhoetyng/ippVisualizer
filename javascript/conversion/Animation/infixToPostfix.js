@@ -18,6 +18,40 @@ export default async function infixToPostfixStack() {
 
     const timer = ms => new Promise(res => setTimeout(res, ms))
 
+    // REPORT
+    let stack = []
+    let top = 0
+    let output = []
+
+    function push(element) {
+        stack[top] = element;
+        top = top + 1;
+    }
+
+    function pop() {
+        top = top - 1;
+        return data.pop();
+    }
+
+    function peek() {
+        return data[top - 1];
+    }
+
+    function isEmpty() {
+        return this.items.length == 0;
+    }
+
+    function prec(x){ 
+        if(c == '^') 
+        return 3; 
+        else if(c == '*' || c == '/') 
+        return 2; 
+        else if(c == '+' || c == '-') 
+        return 1; 
+        else
+        return -1; 
+    } 
+
     for (const input of inputStack) {
         if (input.innerHTML.match(/[A-Z]/i)) {
             input.style.color = "white"
@@ -35,7 +69,6 @@ export default async function infixToPostfixStack() {
             yValueInputToOutput = 0
             xValueInputToOutput = 0
             xValueInputToOutput2 -= 40
-
             xValueInputToStack -= 40
             await timer(duration)
             input.style.color = "black"
@@ -43,21 +76,38 @@ export default async function infixToPostfixStack() {
         }
 
         if (input.innerHTML.match(/[+|\-|*|\/]/i)) {
+            if(isEmpty){
+                push(input.innerHTML)
+            } else {
+                let inputPrec = prec(input.innerHTML)
+                let peekPrec = prec(peek())
+                if(inputPrec > peekPrec){
+                    push(input.innerHTML)
+                } else {
+                    while(inputPrec <= peekPrec && !isEmpty){
+                        const popElement = pop()
+                        output.push(popElement)
+                        peekPrec = prec(peek())
+                    }
+                }
+            }
+            
             input.style.color = "white"
-                input.style.backgroundColor = "#E56B6B"
-                input.animate([
-                    { transform: 'translateX(0px)', offset: 0.0 },
-                    { transform: 'translateY(0px) translateX(' + xValueInputToStack + 'px)', offset: 0.3 },
-                    { transform: 'translateY(' + yValueInputToStack + 'px) translateX(' + xValueInputToStack + 'px)', offset: 1.0 }
-                ], {
-                    duration: 2000,
-                    fill: "forwards"
-                })
-                xValueInputToStack -= 40
-                yValueInputToStack -= 40
-                await timer(duration)
-                input.style.color = "black"
-                input.style.backgroundColor = "#A0A0A0"
+            input.style.backgroundColor = "#E56B6B"
+            input.animate([
+                { transform: 'translateX(0px)', offset: 0.0 },
+                { transform: 'translateY(0px) translateX(' + xValueInputToStack + 'px)', offset: 0.3 },
+                { transform: 'translateY(' + yValueInputToStack + 'px) translateX(' + xValueInputToStack + 'px)', offset: 1.0 }
+            ], {
+                duration: 2000,
+                fill: "forwards"
+            })
+            xValueInputToStack -= 40
+            yValueInputToStack -= 40
+            await timer(duration)
+            input.style.color = "black"
+            input.style.backgroundColor = "#A0A0A0"
+            console.log(stack)
         }
 
         index += 1

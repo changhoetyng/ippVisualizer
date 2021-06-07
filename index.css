@@ -7,3 +7,7 @@
 #nav {
   pointer-events: none;
 }
+
+.background {
+  background-color: var(--bg-color);
+}
