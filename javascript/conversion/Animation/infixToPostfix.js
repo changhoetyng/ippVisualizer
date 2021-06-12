@@ -162,6 +162,22 @@ export default async function infixToPostfixStack() {
             }
         }
 
+        if (input.innerHTML.match(/[\(]/i)) {
+            while (!isEmpty()) {
+                axis += 120
+                await outStackAnimation(axis)
+                pop()
+            }
+        }
+
+        if (input.innerHTML.match(/[\)]/i)) {
+            while (!isEmpty()) {
+                axis += 120
+                await outStackAnimation(axis)
+                pop()
+            }
+        }
+
         index += 1
     }
 
