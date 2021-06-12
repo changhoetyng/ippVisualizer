@@ -21,6 +21,8 @@ export default async function infixToPostfixStack() {
   let top = 0;
   let output = [];
 
+
+
   async function inStackAnimation(input) {
     // operators moving color
     input.style.color = "black";
@@ -55,10 +57,14 @@ export default async function infixToPostfixStack() {
     console.log(stack);
   }
 
-  async function outStackAnimation(axis) {
+  async function outStackAnimation(axis,ap) {
     var indexJson = stackIndex[stackIndex.length - 1];
-    console.log(xValueInputToOutput2);
-    var test = axis + xValueInputToOutput2;
+    // console.log(xValueInputToOutput2);
+    
+    var test = axis + ap;
+    console.log("ap " + ap)
+    console.log("axis " + axis)
+    console.log("test " + test)
     // operators moving color
     let input = inputStack[indexJson.index];
     input.style.transform = "none";
@@ -138,9 +144,10 @@ export default async function infixToPostfixStack() {
     else return -1;
   }
 
-  var axis = 0;
+
 
   for (const input of inputStack) {
+    let axis = 0;
     if (input.innerHTML.match(/[A-Z]/i)) {
       firstOps = false;
       //  operands moving color
@@ -222,9 +229,10 @@ export default async function infixToPostfixStack() {
           stackIndex.push({ index, yValueInputToStack, xValueInputToStack });
           await inStackAnimation(input);
         } else {
+          var ap = xValueInputToOutput2
           while (inputPrec <= peekPrec && !isEmpty()) {
             axis += 120;
-            await outStackAnimation(axis);
+            await outStackAnimation(axis,ap);
             const popElement = pop();
             output.push(popElement);
             peekPrec = prec(peek());
@@ -254,26 +262,28 @@ export default async function infixToPostfixStack() {
       input.classList.add("scale-out-left");
       closeBracket[0].classList.remove("scale-up-left");
       closeBracket[0].classList.add("scale-out-left");
+
+      await timer(duration);
+      closeBracket[0].remove();
+      var ap = xValueInputToOutput2
+      while (!isEmpty()) {
+        axis += 120;
+        await outStackAnimation(axis,ap);
+        pop();
+      }
       yValueInputToOutput = 0;
       xValueInputToOutput = 0;
       xValueInputToOutput2 -= 40;
       xValueInputToStack -= 40;
-      await timer(duration);
-      closeBracket[0].remove();
-      while (!isEmpty()) {
-        axis += 120;
-        await outStackAnimation(axis);
-        pop();
-      }
     }
 
     index += 1;
   }
-
-  while (!isEmpty()) {
-      console.log("hewwo")
+  let axis = 0;
+  var ap = xValueInputToOutput2
+  while (!isEmpty()) {  
       axis += 120
-      await outStackAnimation(axis)
+      await outStackAnimation(axis,ap)
       pop()
   }
 }
