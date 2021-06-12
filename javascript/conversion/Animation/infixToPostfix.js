@@ -23,47 +23,52 @@ export default async function infixToPostfixStack() {
     let output = []
 
     async function inStackAnimation(input) {
-         // operators moving color
-         input.style.color = "black" 
-         input.style.backgroundColor = "var(--sub-color)"
-         input.animate([
-             { transform: 'translateX(0px)', offset: 0.0 },
-             { transform: 'translateY(0px) translateX(' + xValueInputToStack + 'px)', offset: 0.3 },
-             { transform: 'translateY(' + yValueInputToStack + 'px) translateX(' + xValueInputToStack + 'px)', offset: 1.0 }
-         ], {
-             duration: 2000,
-             fill: "forwards"
-         })
-         xValueInputToStack -= 40
-         yValueInputToStack -= 40
-         await timer(duration)
-         input.style.color = "black"
-         input.style.backgroundColor = "var(--main-color)"
-         console.log(stack)
-    }
-
-    async function outStackAnimation() {
-        var yValueStackToOutput = yValueInputToStack
-        var xValueStackToOutput = xValueInputToStack
-
         // operators moving color
-        let input = inputStack[stackIndex]
-        input.style.color = "black" 
+        input.style.color = "black"
         input.style.backgroundColor = "var(--sub-color)"
         input.animate([
-            { transform: 'translateY(' + yValueStackToOutput + 'px) translateX(0px)', offset: 0.0 },
-            { transform: 'translateY(' + yValueStackToOutput + 'px) translateX(0px)', offset: 1.0 },
+            { transform: 'translateX(0px)', offset: 0.0 },
+            { transform: 'translateY(0px) translateX(' + xValueInputToStack + 'px)', offset: 0.3 },
+            { transform: 'translateY(' + yValueInputToStack + 'px) translateX(' + xValueInputToStack + 'px)', offset: 1.0 }
         ], {
             duration: 2000,
             fill: "forwards"
         })
-        xValueStackToOutput -= 40
-        yValueStackToOutput -= 40
+        xValueInputToStack -= 40
+        yValueInputToStack -= 40
         await timer(duration)
         input.style.color = "black"
         input.style.backgroundColor = "var(--main-color)"
         console.log(stack)
-   }
+    }
+
+    async function outStackAnimation(axis) {
+        var indexJson = stackIndex[stackIndex.length - 1]
+        console.log(xValueInputToOutput2)
+        var test = axis + xValueInputToOutput2
+        // operators moving color
+        let input = inputStack[indexJson.index]
+        input.style.transform = "none"
+        input.style.color = "black"
+        input.style.backgroundColor = "var(--sub-color)"
+        input.animate([
+            { transform: 'translateY(' + indexJson.yValueInputToStack + 'px) translateX(' + indexJson.xValueInputToStack + 'px)', offset: 0.0 },
+            { transform: 'translateY(' + 48 + 'px) translateX(' + indexJson.xValueInputToStack + 'px)', offset: 0.3 },
+            { transform: 'translateY(' + 48 + 'px) translateX(' + 0 + 'px)', offset: 0.6 },
+            { transform: 'translateY(' + yValueInputToOutput2 + 'px) translateX(' + test + 'px)', offset: 1.0 },
+        ], {
+            duration: 2000,
+            fill: "forwards"
+        })
+        yValueInputToOutput = 0
+        xValueInputToOutput = 0
+        xValueInputToOutput2 += 40
+        xValueInputToStack += 40
+        await timer(duration)
+        input.style.color = "black"
+        input.style.backgroundColor = "var(--main-color)"
+        stackIndex.pop()
+    }
 
     function push(element) {
         stack[top] = element;
@@ -83,16 +88,18 @@ export default async function infixToPostfixStack() {
         return stack.length == 0;
     }
 
-    function prec(x){ 
-        if(c == '^') 
-        return 3; 
-        else if(c == '*' || c == '/') 
-        return 2; 
-        else if(c == '+' || c == '-') 
-        return 1; 
+    function prec(c) {
+        if (c == '^')
+            return 3;
+        else if (c == '*' || c == '/')
+            return 2;
+        else if (c == '+' || c == '-')
+            return 1;
         else
-        return -1; 
-    } 
+            return -1;
+    }
+
+    var axis = 0
 
     for (const input of inputStack) {
         if (input.innerHTML.match(/[A-Z]/i)) {
@@ -120,24 +127,33 @@ export default async function infixToPostfixStack() {
         }
 
         if (input.innerHTML.match(/[+|\-|*|\/|\(]/i)) {
-            if(firstOps){
+            if (firstOps) {
                 // Reset if first is bracket
                 yValueInputToOutput = 0
                 xValueInputToOutput = 0
                 xValueInputToOutput2 -= 40
             }
 
-            if(isEmpty){
+            if (isEmpty()) {
                 push(input.innerHTML)
-                stackIndex.push(index)
+                stackIndex.push({ index, yValueInputToStack, xValueInputToStack })
                 await inStackAnimation(input)
             } else {
+                console.log("mom")
                 let inputPrec = prec(input.innerHTML)
                 let peekPrec = prec(peek())
-                if(inputPrec > peekPrec){
+                console.log(inputPrec)
+                console.log(peekPrec)
+                if (inputPrec > peekPrec) {
+                    console.log(input.innerHTML)
+                    console.log("hewwo")
                     push(input.innerHTML)
+                    stackIndex.push({ index, yValueInputToStack, xValueInputToStack })
+                    await inStackAnimation(input)
                 } else {
-                    while(inputPrec <= peekPrec && !isEmpty){
+                    while (inputPrec <= peekPrec && !isEmpty()) {
+                        axis += 120
+                        await outStackAnimation(axis)
                         const popElement = pop()
                         output.push(popElement)
                         peekPrec = prec(peek())
@@ -148,10 +164,12 @@ export default async function infixToPostfixStack() {
 
         index += 1
     }
-    stackIndex.reverse()
-    while(!isEmpty()){
-        await outStackAnimation()
+
+
+
+    while (!isEmpty()) {
+        axis += 120
+        await outStackAnimation(axis)
         pop()
     }
-    stackIndex.reverse()
 }
