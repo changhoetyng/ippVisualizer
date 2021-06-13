@@ -16,11 +16,12 @@ export default async function infixToPostfixStack() {
 
   // REPORT
   let firstOps = true;
+  let bracketStackIndex = []
   let stackIndex = [];
   let stack = [];
   let top = 0;
   let output = [];
-
+  let openBracket = 0
 
 
   async function inStackAnimation(input) {
@@ -60,7 +61,7 @@ export default async function infixToPostfixStack() {
   async function outStackAnimation(axis,ap) {
     var indexJson = stackIndex[stackIndex.length - 1];
     // console.log(xValueInputToOutput2);
-    
+    console.log(stackIndex);
     var test = axis + ap;
     console.log("ap " + ap)
     console.log("axis " + axis)
@@ -246,6 +247,18 @@ export default async function infixToPostfixStack() {
     }
 
     if (input.innerHTML.match(/[\(]/i)) {
+      let tempArray = []
+      let tempStackIndex = [] 
+      openBracket += 1
+
+      // OPEN BRACKET
+      while(!isEmpty()){
+        tempArray.push(pop())
+        tempStackIndex.push(stackIndex.pop());
+      }
+
+      bracketStackIndex.push({tempArray,tempStackIndex})
+
       $("#bracketDisp").append("<div class='brackets scale-up-left'>(</div>");
       input.classList.remove("scale-up-left");
       input.classList.add("scale-out-left");
@@ -263,9 +276,23 @@ export default async function infixToPostfixStack() {
       closeBracket[0].classList.remove("scale-up-left");
       closeBracket[0].classList.add("scale-out-left");
 
+
+      let pushBackStackIndex = bracketStackIndex.pop()
+
+      var bruh = 0
+
+      for(var i=pushBackStackIndex.tempStackIndex.length; i>0; i--){
+        stackIndex.push(pushBackStackIndex.tempStackIndex.pop())
+      }
+
+      for(var i=pushBackStackIndex.tempArray.length; i>0; i--){
+        push(pushBackStackIndex.tempArray.pop())
+        bruh += 40
+      }
+
       await timer(duration);
       closeBracket[0].remove();
-      var ap = xValueInputToOutput2
+      var ap = xValueInputToOutput2 + bruh
       while (!isEmpty()) {
         axis += 120;
         await outStackAnimation(axis,ap);
