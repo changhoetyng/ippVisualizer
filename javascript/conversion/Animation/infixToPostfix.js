@@ -55,17 +55,11 @@ export default async function infixToPostfixStack() {
     await timer(duration);
     input.style.color = "black";
     input.style.backgroundColor = "var(--main-color)";
-    console.log(stack);
   }
 
-  async function outStackAnimation(axis,ap) {
+  async function outStackAnimation(axis, ap) {
     var indexJson = stackIndex[stackIndex.length - 1];
-    // console.log(xValueInputToOutput2);
-    console.log(stackIndex);
     var test = axis + ap;
-    console.log("ap " + ap)
-    console.log("axis " + axis)
-    console.log("test " + test)
     // operators moving color
     let input = inputStack[indexJson.index];
     input.style.transform = "none";
@@ -150,6 +144,7 @@ export default async function infixToPostfixStack() {
   for (const input of inputStack) {
     let axis = 0;
     if (input.innerHTML.match(/[A-Z]/i)) {
+
       firstOps = false;
       //  operands moving color
       input.style.color = "black";
@@ -217,14 +212,13 @@ export default async function infixToPostfixStack() {
       }
 
       if (isEmpty()) {
+
         push(input.innerHTML);
         stackIndex.push({ index, yValueInputToStack, xValueInputToStack });
         await inStackAnimation(input);
       } else {
         let inputPrec = prec(input.innerHTML);
         let peekPrec = prec(peek());
-        console.log(inputPrec);
-        console.log(peekPrec);
         if (inputPrec > peekPrec) {
           push(input.innerHTML);
           stackIndex.push({ index, yValueInputToStack, xValueInputToStack });
@@ -233,11 +227,11 @@ export default async function infixToPostfixStack() {
           var ap = xValueInputToOutput2
           while (inputPrec <= peekPrec && !isEmpty()) {
             axis += 120;
-            await outStackAnimation(axis,ap);
+            await outStackAnimation(axis, ap);
             const popElement = pop();
             output.push(popElement);
             peekPrec = prec(peek());
-            
+
           }
           push(input.innerHTML);
           stackIndex.push({ index, yValueInputToStack, xValueInputToStack });
@@ -248,16 +242,18 @@ export default async function infixToPostfixStack() {
 
     if (input.innerHTML.match(/[\(]/i)) {
       let tempArray = []
-      let tempStackIndex = [] 
+      let tempStackIndex = []
       openBracket += 1
 
       // OPEN BRACKET
-      while(!isEmpty()){
+      while (!isEmpty()) {
         tempArray.push(pop())
         tempStackIndex.push(stackIndex.pop());
       }
 
-      bracketStackIndex.push({tempArray,tempStackIndex})
+      bracketStackIndex.push({ tempArray: tempArray, tempStackIndex: tempStackIndex })
+
+
 
       $("#bracketDisp").append("<div class='brackets scale-up-left'>(</div>");
       input.classList.remove("scale-up-left");
@@ -275,27 +271,35 @@ export default async function infixToPostfixStack() {
       input.classList.add("scale-out-left");
       closeBracket[0].classList.remove("scale-up-left");
       closeBracket[0].classList.add("scale-out-left");
+      let axis = 0;
+      var ap = xValueInputToOutput2
+      var outInBracketAlignment = 0
 
-
+      while (!isEmpty()) {
+        axis += 120
+        await outStackAnimation(axis, ap)
+        pop()
+        outInBracketAlignment -= 40
+      }
       let pushBackStackIndex = bracketStackIndex.pop()
+      
 
-      var bruh = 0
-
-      for(var i=pushBackStackIndex.tempStackIndex.length; i>0; i--){
+      for (var i = pushBackStackIndex.tempStackIndex.length; i > 0; i--) {
         stackIndex.push(pushBackStackIndex.tempStackIndex.pop())
       }
 
-      for(var i=pushBackStackIndex.tempArray.length; i>0; i--){
+      for (var i = pushBackStackIndex.tempArray.length; i > 0; i--) {
         push(pushBackStackIndex.tempArray.pop())
-        bruh += 40
+        outInBracketAlignment += 40
       }
 
       await timer(duration);
       closeBracket[0].remove();
-      var ap = xValueInputToOutput2 + bruh
+      var ap = xValueInputToOutput2 + outInBracketAlignment
+
       while (!isEmpty()) {
         axis += 120;
-        await outStackAnimation(axis,ap);
+        await outStackAnimation(axis, ap);
         pop();
       }
       yValueInputToOutput = 0;
@@ -308,9 +312,9 @@ export default async function infixToPostfixStack() {
   }
   let axis = 0;
   var ap = xValueInputToOutput2
-  while (!isEmpty()) {  
-      axis += 120
-      await outStackAnimation(axis,ap)
-      pop()
+  while (!isEmpty()) {
+    axis += 120
+    await outStackAnimation(axis, ap)
+    pop()
   }
 }
