@@ -1,4 +1,5 @@
-import infixToPostfixStack from "./Animation/infixToPostfix.js"
+import infixToPostfixStack from "./Animation/infixToPostfix/infixToPostfix.js"
+import infixToPrefixStack from "./Animation/infixToPrefix/infixToPrefix.js"
 
 export function animate() {
     expressionToInput()
@@ -27,6 +28,8 @@ async function expressionToInput() {
     }
 
     if (dropdownMenuButton.classList.contains("prefixConvert")) {
+        await infixToPrefixStack()
+        $('#visualizeBtn').removeClass('btn-outline-secondary');
         $('#visualizeBtn').prop("disabled",false);
     }
 

@@ -21,7 +21,6 @@ export default async function infixToPostfixStack() {
   let stack = [];
   let top = 0;
   let output = [];
-  let openBracket = 0
 
 
   async function inStackAnimation(input) {
@@ -59,9 +58,10 @@ export default async function infixToPostfixStack() {
 
   async function outStackAnimation(axis, ap) {
     var indexJson = stackIndex[stackIndex.length - 1];
-    var test = axis + ap;
-    // operators moving color
     let input = inputStack[indexJson.index];
+
+    var test = axis + ap + indexJson.stackMove;
+    // operators moving color
     input.style.transform = "none";
     input.style.color = "black";
     input.style.backgroundColor = "var(--sub-color)";
@@ -139,7 +139,16 @@ export default async function infixToPostfixStack() {
     else return -1;
   }
 
+  function calcStackMove(input) {
+    if (!isEmpty() && prec(peek()) === prec(input)) {
 
+      for (var i = stack.length - 1; i >= 0; i--) {
+        if (prec(stack[i]) !== prec(input)) {
+          stackIndex[i].stackMove += 80;
+        }
+      }
+    }
+  }
 
   for (const input of inputStack) {
     let axis = 0;
@@ -203,7 +212,7 @@ export default async function infixToPostfixStack() {
       input.style.backgroundColor = "var(--main-color)";
     }
 
-    if (input.innerHTML.match(/[+|\-|*|\/]/i)) {
+    if (input.innerHTML.match(/[+|\-|*|^|\/]/i)) {
       if (firstOps) {
         // Reset if first is bracket
         yValueInputToOutput = 0;
@@ -212,19 +221,21 @@ export default async function infixToPostfixStack() {
       }
 
       if (isEmpty()) {
-
+        calcStackMove(input.innerHTML)
         push(input.innerHTML);
-        stackIndex.push({ index, yValueInputToStack, xValueInputToStack });
+        stackIndex.push({ index, yValueInputToStack, xValueInputToStack, stackMove: 0 });
         await inStackAnimation(input);
       } else {
         let inputPrec = prec(input.innerHTML);
         let peekPrec = prec(peek());
         if (inputPrec > peekPrec) {
+          calcStackMove(input.innerHTML)
           push(input.innerHTML);
-          stackIndex.push({ index, yValueInputToStack, xValueInputToStack });
+          stackIndex.push({ index, yValueInputToStack, xValueInputToStack, stackMove: 0 });
           await inStackAnimation(input);
         } else {
           var ap = xValueInputToOutput2
+          calcStackMove(input.innerHTML)
           while (inputPrec <= peekPrec && !isEmpty()) {
             axis += 120;
             await outStackAnimation(axis, ap);
@@ -234,7 +245,7 @@ export default async function infixToPostfixStack() {
 
           }
           push(input.innerHTML);
-          stackIndex.push({ index, yValueInputToStack, xValueInputToStack });
+          stackIndex.push({ index, yValueInputToStack, xValueInputToStack, stackMove: 0 });
           await inStackAnimation(input);
         }
       }
@@ -243,7 +254,6 @@ export default async function infixToPostfixStack() {
     if (input.innerHTML.match(/[\(]/i)) {
       let tempArray = []
       let tempStackIndex = []
-      openBracket += 1
 
       // OPEN BRACKET
       while (!isEmpty()) {
@@ -282,7 +292,7 @@ export default async function infixToPostfixStack() {
         outInBracketAlignment -= 40
       }
       let pushBackStackIndex = bracketStackIndex.pop()
-      
+
 
       for (var i = pushBackStackIndex.tempStackIndex.length; i > 0; i--) {
         stackIndex.push(pushBackStackIndex.tempStackIndex.pop())
