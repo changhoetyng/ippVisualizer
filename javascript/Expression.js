@@ -67,7 +67,7 @@ function checkExpressionValid(expressionPlaceholder) {
         }
     }
 
-    if (noOperands - noOperators !== 1 || closeBrackets != [openBrackets] || noOperands > 6) {
+    if (noOperands - noOperators !== 1 || closeBrackets != [openBrackets] || noOperands > 10) {
         invalidEquation()
         return false
     }
