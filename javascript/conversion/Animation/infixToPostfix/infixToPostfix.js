@@ -22,10 +22,11 @@ export default async function infixToPostfixStack() {
   let top = 0;
   let output = [];
   let numberOfPops = 0;
-  let numOfCloseBrac = 0;
+  let numOfOpenBrac = 0;
   let totalOpsEndBrac = 0;
   let numOfOps = 0;
   let prevNumOps = 0;
+  let gotOutBrac = false
 
   async function inStackAnimation(input) {
     // operators moving color
@@ -61,10 +62,13 @@ export default async function infixToPostfixStack() {
   }
 
   async function outStackAnimation(axis, ap) {
+    gotOutBrac = false
     var indexJson = stackIndex[stackIndex.length - 1];
     let input = inputStack[indexJson.index];
 
-    var test = axis + ap + indexJson.stackMove;
+    console.log(indexJson.bracOffset)
+
+    var test = axis + ap + indexJson.stackMove + indexJson.bracOffset;
     // operators moving color
     input.style.transform = "none";
     input.style.color = "black";
@@ -223,7 +227,7 @@ export default async function infixToPostfixStack() {
       if (isEmpty()) {
         calcStackMove(input.innerHTML)
         push(input.innerHTML);
-        stackIndex.push({ index, yValueInputToStack, xValueInputToStack, stackMove: 0 });
+        stackIndex.push({ index, yValueInputToStack, xValueInputToStack, stackMove: 0, bracOffset: prevNumOps * -80});
         await inStackAnimation(input);
       } else {
         let inputPrec = prec(input.innerHTML);
@@ -231,10 +235,16 @@ export default async function infixToPostfixStack() {
         if (inputPrec > peekPrec) {
           calcStackMove(input.innerHTML)
           push(input.innerHTML);
-          stackIndex.push({ index, yValueInputToStack, xValueInputToStack, stackMove: 0 });
+          // console.log(gotOutBrac)
+          if (gotOutBrac) {
+            stackIndex.push({ index, yValueInputToStack, xValueInputToStack, stackMove: 0, bracOffset:  0});
+          } else {
+            stackIndex.push({ index, yValueInputToStack, xValueInputToStack, stackMove: 0, bracOffset: prevNumOps * -80});
+          }
           await inStackAnimation(input);
         } else {
           var ap = xValueInputToOutput2
+          let ibu = gotOutBrac
           calcStackMove(input.innerHTML)
           while (inputPrec <= peekPrec && !isEmpty()) {
             numberOfPops += 1;
@@ -246,13 +256,20 @@ export default async function infixToPostfixStack() {
 
           }
           push(input.innerHTML);
-          stackIndex.push({ index, yValueInputToStack, xValueInputToStack, stackMove: 0 });
+          if(ibu && inputPrec === peekPrec) {
+            stackIndex.push({ index, yValueInputToStack, xValueInputToStack, stackMove: 0, bracOffset: (prevNumOps * -80) + 80});
+          } else {
+            stackIndex.push({ index, yValueInputToStack, xValueInputToStack, stackMove: 0, bracOffset: prevNumOps * -80});
+          }
+          
           await inStackAnimation(input);
         }
       }
     }
 
     if (input.innerHTML.match(/[\(]/i)) {
+      numOfOpenBrac += 1;
+
       let tempArray = []
       let tempStackIndex = []
       // OPEN BRACKET
@@ -261,27 +278,22 @@ export default async function infixToPostfixStack() {
         tempStackIndex.push(stackIndex.pop());
       }
 
-      bracketStackIndex.push({ tempArray: tempArray, tempStackIndex: tempStackIndex, numberOfPops: numberOfPops, numOfOps: numOfOps})
+      bracketStackIndex.push({ tempArray: tempArray, tempStackIndex: tempStackIndex, numberOfPops: numberOfPops, numOfOps: numOfOps })
       indexStack--;
       numberOfPops = 0;
       numOfOps = 0;
-      
+
       $("#bracketDisp").append("<div class='brackets scale-up-left'>(</div>");
       input.classList.remove("scale-up-left");
       input.classList.add("scale-out-left");
       input.remove();
-      
-    //   yValueInputToOutput = 0;
-    //   xValueInputToOutput = 0;
-    //   xValueInputToOutput2 -= 40;
-    //   xValueInputToStack -= 40;
+
       await timer(duration);
 
       continue;
     }
 
     if (input.innerHTML.match(/[\)]/i)) {
-      numOfCloseBrac += 1;
       var closeBracket = document.getElementsByClassName("brackets");
       input.classList.remove("scale-up-left");
       input.classList.add("scale-out-left");
@@ -295,7 +307,6 @@ export default async function infixToPostfixStack() {
 
       while (!isEmpty()) {
         totalOpsEndBrac += 1
-        console.log("in LOOP")
         axis += 120
         await outStackAnimation(axis, ap)
         pop()
@@ -303,61 +314,56 @@ export default async function infixToPostfixStack() {
       }
       let pushBackStackIndex = bracketStackIndex.pop()
 
-      numberOfPops = bracketStackIndex.numberOfPops
-      for (var i = pushBackStackIndex.tempStackIndex.length; i > 0; i--) {
-        stackIndex.push(pushBackStackIndex.tempStackIndex.pop())
-      }
-
-      for (var i = pushBackStackIndex.tempArray.length; i > 0; i--) {
-        push(pushBackStackIndex.tempArray.pop())
-        outInBracketAlignment += 40
-      }
-
       prevNumOps += numOfOps
       numOfOps = pushBackStackIndex.numOfOps;
 
-      console.log(totalOpsEndBrac)
-      console.log(numOfCloseBrac)
+      numberOfPops = bracketStackIndex.numberOfPops
 
-      await timer(duration);
-      closeBracket[0].remove();
-     
+      if(!inputStack[indexStack + 1] || inputStack[indexStack + 1].innerHTML === ")") {
+        for (var i = pushBackStackIndex.tempStackIndex.length; i > 0; i--) {
+          let tempPop = pushBackStackIndex.tempStackIndex.pop();
+          stackIndex.push(tempPop);
+        }
+  
+        for (var i = pushBackStackIndex.tempArray.length; i > 0; i--) {
+          push(pushBackStackIndex.tempArray.pop())
+          outInBracketAlignment += 40
+        }
+      } else {
+        for (var i = pushBackStackIndex.tempStackIndex.length; i > 0; i--) {
+          let tempPop = pushBackStackIndex.tempStackIndex.pop();
+          tempPop.bracOffset += prevNumOps*80
+          console.log(tempPop)
+          stackIndex.push(tempPop);
+        }
+  
+        for (var i = pushBackStackIndex.tempArray.length; i > 0; i--) {
+          push(pushBackStackIndex.tempArray.pop())
+          outInBracketAlignment += 40
+        }
+      }
 
       
 
-      // while (!isEmpty()) {
-      //   console.log("hello")
-      //   axis += 120;
-      //   await outStackAnimation(axis, ap);
-      //   pop();
-      // }
-
+      await timer(duration);
+      closeBracket[0].remove();
       indexStack--;
+      gotOutBrac = true
       continue;
-    //   yValueInputToOutput = 0;
-    //   xValueInputToOutput = 0;
-    //   xValueInputToOutput2 -= 40;
-    //   xValueInputToStack -= 40;
     }
 
     index += 1;
   }
-  
-  let chang = stack.length
-  chang *= -40
-  
+
   let loop = 0;
 
   while (!isEmpty()) {
-      let axis = 0;
-      console.log(prevNumOps)
-      console.log(loop)
-      var ap = xValueInputToOutput2 + (prevNumOps * 80) + loop;
-      loop += 80;
-      // + outInBracketAlignment + chang + (totalOpsEndBrac * 80 * numOfOpenBrac)
-      axis += 120
-      await outStackAnimation(axis, ap)
-      pop()
-    
+    let axis = 0;
+    var ap = xValueInputToOutput2 + (prevNumOps * 80) + loop;
+    loop += 80;
+    axis += 120
+    await outStackAnimation(axis, ap)
+    pop()
+
   }
 }
