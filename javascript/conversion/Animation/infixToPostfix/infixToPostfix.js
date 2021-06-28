@@ -232,6 +232,7 @@ export default async function infixToPostfixStack() {
       } else {
         let inputPrec = prec(input.innerHTML);
         let peekPrec = prec(peek());
+        let peekPrecBefore = prec(peek())
         if (inputPrec > peekPrec) {
           calcStackMove(input.innerHTML)
           push(input.innerHTML);
@@ -256,7 +257,7 @@ export default async function infixToPostfixStack() {
 
           }
           push(input.innerHTML);
-          if(ibu && inputPrec === peekPrec) {
+          if(ibu && inputPrec === peekPrecBefore) {
             stackIndex.push({ index, yValueInputToStack, xValueInputToStack, stackMove: 0, bracOffset: (prevNumOps * -80) + 80});
           } else {
             stackIndex.push({ index, yValueInputToStack, xValueInputToStack, stackMove: 0, bracOffset: prevNumOps * -80});
@@ -319,7 +320,8 @@ export default async function infixToPostfixStack() {
 
       numberOfPops = bracketStackIndex.numberOfPops
 
-      if(!inputStack[indexStack + 1] || inputStack[indexStack + 1].innerHTML === ")") {
+      if(!inputStack[indexStack] || inputStack[indexStack].innerHTML === ")") {
+        console.log("bruh")
         for (var i = pushBackStackIndex.tempStackIndex.length; i > 0; i--) {
           let tempPop = pushBackStackIndex.tempStackIndex.pop();
           stackIndex.push(tempPop);
