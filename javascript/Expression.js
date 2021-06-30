@@ -1,8 +1,7 @@
 import { animate } from "./conversion/Animate.js"
+var visualizeBtn = document.getElementById("visualizeBtn")
 
 export async function retrieveFunction() {
-    var visualizeBtn = document.getElementById("visualizeBtn")
-
     visualizeBtn.onclick = function () {
         const expressionPlaceholder = document.getElementById("expressionPlaceholder").value
         if (checkExpressionValid(expressionPlaceholder)) {

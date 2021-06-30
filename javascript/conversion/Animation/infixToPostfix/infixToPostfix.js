@@ -66,8 +66,6 @@ export default async function infixToPostfixStack() {
     var indexJson = stackIndex[stackIndex.length - 1];
     let input = inputStack[indexJson.index];
 
-    console.log(indexJson.bracOffset)
-
     var test = axis + ap + indexJson.stackMove + indexJson.bracOffset;
     // operators moving color
     input.style.transform = "none";
@@ -236,7 +234,6 @@ export default async function infixToPostfixStack() {
         if (inputPrec > peekPrec) {
           calcStackMove(input.innerHTML)
           push(input.innerHTML);
-          // console.log(gotOutBrac)
           if (gotOutBrac) {
             stackIndex.push({ index, yValueInputToStack, xValueInputToStack, stackMove: 0, bracOffset:  0});
           } else {
@@ -288,9 +285,6 @@ export default async function infixToPostfixStack() {
       input.classList.remove("scale-up-left");
       input.classList.add("scale-out-left");
       input.remove();
-
-      await timer(duration);
-
       continue;
     }
 
@@ -321,7 +315,6 @@ export default async function infixToPostfixStack() {
       numberOfPops = bracketStackIndex.numberOfPops
 
       if(!inputStack[indexStack] || inputStack[indexStack].innerHTML === ")") {
-        console.log("bruh")
         for (var i = pushBackStackIndex.tempStackIndex.length; i > 0; i--) {
           let tempPop = pushBackStackIndex.tempStackIndex.pop();
           stackIndex.push(tempPop);
@@ -335,7 +328,6 @@ export default async function infixToPostfixStack() {
         for (var i = pushBackStackIndex.tempStackIndex.length; i > 0; i--) {
           let tempPop = pushBackStackIndex.tempStackIndex.pop();
           tempPop.bracOffset += prevNumOps*80
-          console.log(tempPop)
           stackIndex.push(tempPop);
         }
   
@@ -345,9 +337,6 @@ export default async function infixToPostfixStack() {
         }
       }
 
-      
-
-      await timer(duration);
       closeBracket[0].remove();
       indexStack--;
       gotOutBrac = true
