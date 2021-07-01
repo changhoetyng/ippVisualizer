@@ -148,8 +148,6 @@ function checkPrefix(expression) {
     while (j != 0) {
         var expressionChar = expression.charAt(j)
 
-        console.log(expressionChar)
-
         if (expressionChar.match(/[+|\-|*|^|\/]/i)) {
             return false
         }

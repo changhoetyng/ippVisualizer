@@ -7,7 +7,7 @@ var toInfixDisplay = `<div class="d-flex flex-row">
 
 <div class="d-flex flex-row mt-5">
 <h4 class="mt-2 main-color" style="margin-left: 177px;">Output</h4>
-<div class="mt-2 w-100 d-flex flex-row" style="margin-left: 108px;">
+<div class="mt-2 w-100 d-flex flex-row" id="outputDisp" style="margin-left: 108px;">
     <div id="bottomPanelOut"></div>
 </div>
 </div>`
