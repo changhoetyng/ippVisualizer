@@ -20,53 +20,53 @@ export default async function postfixToInfix() {
 
     if (input.innerHTML.match(/[A-Z]/i)) {
       //  operands moving color
-      input.style.color = "black";
-      input.style.backgroundColor = "var(--sub-color)";
-      input.animate(
-        [
-          { transform: "translateX(0px)", offset: 0.0 },
-          {
-            transform:
-              "translateY(" +
-              46 +
-              "px) translateX(" +
-              0 +
-              "px)",
-            offset: 0.3,
-          },
-          {
-            transform:
-              "translateY(" +
-              46 +
-              "px) translateX(" +
-              yInputToOutput +
-              "px)",
-            offset: 0.6,
-          },
-          {
-            transform:
-              "translateY(" +
-              96 +
-              "px) translateX(" +
-              yInputToOutput +
-              "px)",
-            offset: 1.0,
-          },
-        ],
-        {
-          duration: 2000,
-          fill: "forwards",
-        }
-      );
+      // input.style.color = "black";
+      // input.style.backgroundColor = "var(--sub-color)";
+      // input.animate(
+      //   [
+      //     { transform: "translateX(0px)", offset: 0.0 },
+      //     {
+      //       transform:
+      //         "translateY(" +
+      //         46 +
+      //         "px) translateX(" +
+      //         0 +
+      //         "px)",
+      //       offset: 0.3,
+      //     },
+      //     {
+      //       transform:
+      //         "translateY(" +
+      //         46 +
+      //         "px) translateX(" +
+      //         yInputToOutput +
+      //         "px)",
+      //       offset: 0.6,
+      //     },
+      //     {
+      //       transform:
+      //         "translateY(" +
+      //         96 +
+      //         "px) translateX(" +
+      //         yInputToOutput +
+      //         "px)",
+      //       offset: 1.0,
+      //     },
+      //   ],
+      //   {
+      //     duration: 2000,
+      //     fill: "forwards",
+      //   }
+      // );
 
-      await timer(duration);
+      // await timer(duration);
 
       numOfAppend+= 1
       numDiv+= 1
 
       $("#output").append(`<div class='outExpression numAppended${numOfAppend}'>` + input.innerHTML + `</div>`);
       // $('.dispExpression').first().hide();
-      $( `.numAppended${numDiv}` ).wrapAll( `<div class='d-flex flex-row outerAppend${numDiv}'/>`);
+      $( `.numAppended${numOfAppend}` ).wrapAll( `<div class='d-flex flex-row outerAppend${numDiv}'/>`);
 
       input.style.color = "black";
       input.style.backgroundColor = "var(--main-color)";
@@ -76,92 +76,93 @@ export default async function postfixToInfix() {
       console.log(numDiv)
       var output = document.getElementsByClassName(`outerAppend${numDiv}`);
 
-      output[0].animate(
-        [
-          {
-            transform:
-              "translateY(" +
-              0 +
-              "px) translateX(" +
-              0 +
-              "px)",
-            offset: 0.0,
-          },
-          {
-            transform:
-              "translateY(" +
-              0 +
-              "px) translateX(" +
-              40 +
-              "px)",
-            offset: 1.0,
-          },
-        ],
-        {
-          duration: 1000,
-          fill: "forwards",
-        }
-      );
-      await timer(duration2);
+      // output[0].animate(
+      //   [
+      //     {
+      //       transform:
+      //         "translateY(" +
+      //         0 +
+      //         "px) translateX(" +
+      //         0 +
+      //         "px)",
+      //       offset: 0.0,
+      //     },
+      //     {
+      //       transform:
+      //         "translateY(" +
+      //         0 +
+      //         "px) translateX(" +
+      //         40 +
+      //         "px)",
+      //       offset: 1.0,
+      //     },
+      //   ],
+      //   {
+      //     duration: 1000,
+      //     fill: "forwards",
+      //   }
+      // );
+      // await timer(duration2);
       //  operands moving color
       // $(`outerAppend${numDiv}`).children().css({"color": "black", "backgroundColor": "var(--sub-color)", "transform": "translateX(-40px);"});
       // output[0].style.color = "black";
       // output[0].style.backgroundColor = "var(--sub-color)";
       // output[0].style.transform = "translateX(-40px);"
 
-      input.animate(
-        [
-          {
-            transform:
-              "translateY(" +
-              0 +
-              "px)",
-            offset: 0.0,
-          },
-          {
-            transform:
-              "translateY(" +
-              0 +
-              "px) translateX(" +
-              -40 +
-              "px)",
-            offset: 0.2,
-          },
-          {
-            transform:
-              "translateY(" +
-              46 +
-              "px) translateX(" +
-              -40 +
-              "px)",
-            offset: 0.5,
-          },
-          {
-            transform:
-              "translateY(" +
-              96 +
-              "px) translateX(" +
-              -40 +
-              "px)",
-            offset: 1.0,
-          },
-        ],
-        {
-          duration: 1000,
-          fill: "forwards",
-        }
-      );
-      await timer(duration2);
+      // input.animate(
+      //   [
+      //     {
+      //       transform:
+      //         "translateY(" +
+      //         0 +
+      //         "px)",
+      //       offset: 0.0,
+      //     },
+      //     {
+      //       transform:
+      //         "translateY(" +
+      //         0 +
+      //         "px) translateX(" +
+      //         -40 +
+      //         "px)",
+      //       offset: 0.2,
+      //     },
+      //     {
+      //       transform:
+      //         "translateY(" +
+      //         46 +
+      //         "px) translateX(" +
+      //         -40 +
+      //         "px)",
+      //       offset: 0.5,
+      //     },
+      //     {
+      //       transform:
+      //         "translateY(" +
+      //         96 +
+      //         "px) translateX(" +
+      //         -40 +
+      //         "px)",
+      //       offset: 1.0,
+      //     },
+      //   ],
+      //   {
+      //     duration: 1000,
+      //     fill: "forwards",
+      //   }
+      // );
+      // await timer(duration2);
 
       input.style.color = "black";
       input.style.backgroundColor = "var(--main-color)";
       
       
       numOfAppend+= 1
-      $(`.outerAppend${numDiv - 1}`).before(`<div class='outExpression numAppended${numOfAppend} scale-up-left'>(</div>`);
-      $(`.outerAppend${numDiv - 1}`).after(`<div class='outExpression numAppended${numOfAppend}'>` + input.innerHTML + `</div>`);
-      $(`.outerAppend${numDiv}`).after(`<div class='outExpression numAppended${numOfAppend} scale-up-left'>)</div>`);
-      	
+      $(`.outerAppend${numDiv - 1}`).prepend(`<div class='outExpression numAppended${numOfAppend} scale-up-left'>(</div>`);
+      $(`.outerAppend${numDiv}`).prepend(`<div class='outExpression numAppended${numOfAppend}'>` + input.innerHTML + `</div>`);
+      $(`.outerAppend${numDiv}`).append(`<div class='outExpression numAppended${numOfAppend} scale-up-left'>)</div>`);
+      $(`.outerAppend${numDiv}`).children().appendTo(`.outerAppend${numDiv - 1}`);
+      $(`.outerAppend${numDiv}`).remove()
       numDiv -= 1
       // $( `.numAppended${numOfAppend}` ).wrapAll( `<div class='d-flex flex-row outerAppend${numOfAppend}'/>`);
 
