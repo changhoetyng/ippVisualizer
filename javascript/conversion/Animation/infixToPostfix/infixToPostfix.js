@@ -242,7 +242,7 @@ export default async function infixToPostfixStack() {
           await inStackAnimation(input);
         } else {
           var ap = xValueInputToOutput2
-          let ibu = gotOutBrac
+          let outBr = gotOutBrac
           calcStackMove(input.innerHTML)
           while (inputPrec <= peekPrec && !isEmpty()) {
             numberOfPops += 1;
@@ -254,7 +254,7 @@ export default async function infixToPostfixStack() {
 
           }
           push(input.innerHTML);
-          if(ibu && inputPrec === peekPrecBefore) {
+          if(outBr && inputPrec === peekPrecBefore) {
             stackIndex.push({ index, yValueInputToStack, xValueInputToStack, stackMove: 0, bracOffset: (prevNumOps * -80) + 80});
           } else {
             stackIndex.push({ index, yValueInputToStack, xValueInputToStack, stackMove: 0, bracOffset: prevNumOps * -80});
