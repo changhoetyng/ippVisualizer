@@ -1,6 +1,6 @@
-import infixToPostfixStack from "./Animation/infixToPostfix/infixToPostfix.js"
-import postfixToInfixStack from "./Animation/postfiixToInfix/postfixToInfix.js"
-import reverseAnimation from "./Animation/infixToPrefix/reverseAnimation.js"
+import infixToPostfixStack from "./Animation/infixToPostfix.js"
+import postfixToInfixStack from "./Animation/postfixToInfix.js"
+import {reverseAnimation, reverseAnimationOutput} from "./Animation/reverseAnimation.js"
 import infixDisplay from "../../constants/infixDisplay.js"
 import toInfixDisplay from "../../constants/toInfixDisplay.js"
 
@@ -58,7 +58,10 @@ async function prefixToOthers() {
     }
 
     if (dropdownMenuButton.classList.contains("infixConvert") && dropdownMenuSelector.classList.contains("prefixType")) {
-        invalidEquation(4)
+        await reverseAnimation()
+        await postfixToInfixStack()
+        await reverseAnimationOutput()
+
         $('#visualizeBtn').removeClass('btn-outline-secondary');
         $('#visualizeBtn').prop("disabled", false);
     }
@@ -104,12 +107,14 @@ function invalidEquationCheck() {
 }
 
 function renderScene() {
-    if (dropdownMenuSelector.classList.contains("infixType")) {
+    if ((dropdownMenuButton.classList.contains("postfixConvert") && dropdownMenuSelector.classList.contains("infixType")) 
+        || (dropdownMenuButton.classList.contains("prefixConvert") && dropdownMenuSelector.classList.contains("infixType"))) {
         $("#display").html("");
         $("#display").append(infixDisplay);
     }
 
-    if (dropdownMenuSelector.classList.contains("postfixType")) {
+    if ((dropdownMenuButton.classList.contains("infixConvert") && dropdownMenuSelector.classList.contains("postfixType")) 
+        || (dropdownMenuButton.classList.contains("infixConvert") && dropdownMenuSelector.classList.contains("prefixType"))) {
         $("#display").html("");
         $("#display").append(toInfixDisplay);
     }
