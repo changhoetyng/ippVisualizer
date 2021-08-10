@@ -1,5 +1,6 @@
 import infixToPostfixStack from "./Animation/infixToPostfix.js"
 import postfixToInfixStack from "./Animation/postfixToInfix.js"
+import postfixToPrefixStack from "./Animation/postfixToPrefix.js"
 import {reverseAnimation, reverseAnimationOutput} from "./Animation/reverseAnimation.js"
 import infixDisplay from "../../constants/infixDisplay.js"
 import toInfixDisplay from "../../constants/toInfixDisplay.js"
@@ -37,7 +38,7 @@ async function expressionToInput() {
 async function postfixToOthers() {
     // postfix to prefix
     if (dropdownMenuButton.classList.contains("prefixConvert") && dropdownMenuSelector.classList.contains("postfixType")) {
-        invalidEquation(4)
+        await postfixToPrefixStack()
         $('#visualizeBtn').removeClass('btn-outline-secondary');
         $('#visualizeBtn').prop("disabled", false);
     }
@@ -52,7 +53,9 @@ async function postfixToOthers() {
 
 async function prefixToOthers() {
     if (dropdownMenuButton.classList.contains("postfixConvert") && dropdownMenuSelector.classList.contains("prefixType")) {
-        invalidEquation(4)
+        await reverseAnimation()
+        await postfixToPrefixStack()
+        await reverseAnimationOutput()
         $('#visualizeBtn').removeClass('btn-outline-secondary');
         $('#visualizeBtn').prop("disabled", false);
     }
@@ -114,7 +117,9 @@ function renderScene() {
     }
 
     if ((dropdownMenuButton.classList.contains("infixConvert") && dropdownMenuSelector.classList.contains("postfixType")) 
-        || (dropdownMenuButton.classList.contains("infixConvert") && dropdownMenuSelector.classList.contains("prefixType"))) {
+        || (dropdownMenuButton.classList.contains("infixConvert") && dropdownMenuSelector.classList.contains("prefixType"))
+        || (dropdownMenuButton.classList.contains("prefixConvert") && dropdownMenuSelector.classList.contains("postfixType"))
+        || (dropdownMenuButton.classList.contains("postfixConvert") && dropdownMenuSelector.classList.contains("prefixType"))) {
         $("#display").html("");
         $("#display").append(toInfixDisplay);
     }

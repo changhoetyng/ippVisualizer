@@ -122,43 +122,12 @@ function checkInfix(expression) {
 }
 
 function checkPrefix(expression) {
-
-    for (var i = 0; i < expression.length; i++) {
-        var expressionChar = expression.charAt(i);
-
-        if (expressionChar.match(/[+|\-|*|^|\/]/i)) {
-            break
-        }
-
-        if (expressionChar.match(/[(]/i)) {
-            continue
-        }
-
-        if (expressionChar.match(/[)]/i)) {
-            continue
-        }
-
-        if (expressionChar.match(/[A-Z]/i)) {
-            return false
-        }
+    var expressionChar = expression.charAt(0);
+    if (expressionChar.match(/[+|\-|*|^|\/]/i)) {
+        return true
+    } else {
+        return false
     }
-
-    var j = expression.length - 1
-
-    while (j != 0) {
-        var expressionChar = expression.charAt(j)
-
-        if (expressionChar.match(/[+|\-|*|^|\/]/i)) {
-            return false
-        }
-
-        if (expressionChar.match(/[A-Z]/i)) {
-            break
-        }
-
-        j--;
-    }
-    return true
 }
 
 function checkPostfix(expression) {
