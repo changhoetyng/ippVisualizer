@@ -10,12 +10,14 @@ export default async function postfixToInfix() {
   const timer = (ms) => new Promise((res) => setTimeout(res, ms));
 
   var inputStack = document.getElementsByClassName("dispExpression");
-
+  $( "#lineOne" ).addClass( "conditionalActive" );
   for (var indexStack = 0; indexStack < inputStack.length; indexStack++) {
     let input = inputStack[indexStack]
 
     if (input.innerHTML.match(/[A-Z]/i)) {
       //  operands moving color
+      $( "#lineTwo" ).addClass( "conditionalActive" );
+      $( "#lineThree" ).addClass( "pseudocodeActive" );
       input.style.color = "black";
       input.style.backgroundColor = "var(--sub-color)";
       input.animate(
@@ -68,10 +70,13 @@ export default async function postfixToInfix() {
 
       input.style.color = "black";
       input.style.backgroundColor = "var(--main-color)";
+      $( "#lineTwo" ).removeClass( "conditionalActive" );
+      $( "#lineThree" ).removeClass( "pseudocodeActive" );
     }
 
     if (input.innerHTML.match(/[+|\-|*|^|\/]/i)) {
-
+      $( "#lineFour" ).addClass( "conditionalActive" );
+      $( "#lineFive" ).addClass( "pseudocodeActive" );
       input.style.color = "black";
       input.style.backgroundColor = "var(--main-color)";
       
@@ -79,7 +84,8 @@ export default async function postfixToInfix() {
       $(`.outerAppend${numDiv}`).children().css("background-color","#A8C69F");
       await timer(duration);
       
-      
+      $( "#lineFive" ).removeClass( "pseudocodeActive" );
+      $( "#lineSix" ).addClass( "pseudocodeActive" );
       indexStack -= 1;
 
       numOfAppend += 3
@@ -96,8 +102,11 @@ export default async function postfixToInfix() {
       $(`.outerAppend${numDiv}`).children().css("background-color","var(--main-color)");
       
       input.remove();
-
+      $( "#lineFour" ).removeClass( "conditionalActive" );
+      $( "#lineSix" ).removeClass( "pseudocodeActive" );
+      
       numDiv -= 1
     }
   }
+  $( "#lineOne" ).removeClass( "conditionalActive" );
 }

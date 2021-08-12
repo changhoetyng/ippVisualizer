@@ -4,6 +4,7 @@ import postfixToPrefixStack from "./Animation/postfixToPrefix.js"
 import {reverseAnimation, reverseAnimationOutput} from "./Animation/reverseAnimation.js"
 import infixDisplay from "../../constants/infixDisplay.js"
 import toInfixDisplay from "../../constants/toInfixDisplay.js"
+import postfixToInfixPseudocode from "../../psudocode/postfixToInfix.js"
 
 var dropdownMenuButton = document.getElementById("dropdownMenuButtonConvert")
 var dropdownMenuSelector = document.getElementById("dropdownMenuButtonType")
@@ -122,6 +123,15 @@ function renderScene() {
         || (dropdownMenuButton.classList.contains("postfixConvert") && dropdownMenuSelector.classList.contains("prefixType"))) {
         $("#display").html("");
         $("#display").append(toInfixDisplay);
+    }
+
+    if(dropdownMenuButton.classList.contains("infixConvert") && dropdownMenuSelector.classList.contains("postfixType")){
+        if ($("#sideout").hasClass("displayNone")) {
+            $('#sidebutton').trigger('click');
+        }
+        
+        $("#sideout").html("");
+        $("#sideout").append(postfixToInfixPseudocode);
     }
 }
 

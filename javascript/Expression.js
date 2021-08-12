@@ -8,9 +8,9 @@ export async function retrieveFunction() {
     if(!($("#sideout").hasClass("moving"))){
     if ($("#sideout").hasClass("displayNone")) {
       $( "#sideout" ).addClass( "moving" );
-      $( "#sideout" ).removeClass( "slideOutRight displayNone" );
+      $( "#sideout" ).removeClass( "slideOutRight displayNone");
       $( "#sideout" ).addClass( "slideInRight" );
-      $("#sideout").css("width", "500px");
+      $("#sideout").css("width", "600px");
       $( ".arrow" ).addClass( "right" );
       $( ".arrow" ).removeClass( "left" )
       $( "#sideout" ).removeClass( "moving" );

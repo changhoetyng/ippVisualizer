@@ -21,3 +21,25 @@
 .instructionText {
   font-size: 24px;
 }
+
+.pseudocode {
+  font-family: monaco,Consolas,Lucida Console,monospace; 
+  overflow-wrap: break-word;
+  font-size: 17px;
+}
+
+.pseudocodeActive {
+  background-color: #A8C69F;
+}
+
+.conditionalActive {
+  color: #5A8D2E;
+}
+
+.paddingFirstIndent{
+  padding-left: 20px;
+}
+
+.paddingSecondIndent{
+  padding-left: 40px;
+}

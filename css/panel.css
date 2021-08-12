@@ -1,5 +1,5 @@
 #sidebutton {
-  height: 200px;
+  height: 450px;
   width: 30px;
   background-color: var(--main-color);
   position: absolute;
@@ -15,7 +15,7 @@
   display: inline-block;
   padding: 3px;
   position: relative;
-  top: 42%;
+  top: 50%;
   transition: all 0.5s;
 }
 
@@ -30,12 +30,13 @@
 }
 
 #sideout {
-  height: 200px;
+  height: 450px;
   width: 0;
   background-color: var(--main-color);
   position: fixed;
   bottom: 150px;
   right: 0;
+  padding-top: 10px;
 }
 
 .slideInRight {
@@ -76,30 +77,34 @@
   animation-duration: 1s;
   -webkit-animation-fill-mode: both;
   animation-fill-mode: both;
-  }
-  @-webkit-keyframes slideOutRight {
+}
+@-webkit-keyframes slideOutRight {
   0% {
-  -webkit-transform: translateX(0);
-  transform: translateX(0);
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
   }
   100% {
-  visibility: hidden;
-  -webkit-transform: translateX(100%);
-  transform: translateX(100%);
+    visibility: hidden;
+    -webkit-transform: translateX(100%);
+    transform: translateX(100%);
   }
-  }
-  @keyframes slideOutRight {
+}
+@keyframes slideOutRight {
   0% {
-  -webkit-transform: translateX(0);
-  transform: translateX(0);
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
   }
   100% {
-  visibility: hidden;
-  -webkit-transform: translateX(100%);
-  transform: translateX(100%);
+    visibility: hidden;
+    -webkit-transform: translateX(100%);
+    transform: translateX(100%);
   }
-  } 
+}
 
 .displayNone {
   display: none;
+}
+
+.active {
+  background-color: green;
 }
