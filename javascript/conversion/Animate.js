@@ -5,6 +5,10 @@ import {reverseAnimation, reverseAnimationOutput} from "./Animation/reverseAnima
 import infixDisplay from "../../constants/infixDisplay.js"
 import toInfixDisplay from "../../constants/toInfixDisplay.js"
 import postfixToInfixPseudocode from "../../psudocode/postfixToInfix.js"
+import prefixToInfixPseudocode from "../../psudocode/prefixToInfix.js"
+import postfixToPrefixPseudocode from "../../psudocode/postfixToPrefix.js"
+import prefixToPostfixPseudocode from "../../psudocode/prefixToPostfix.js"
+
 
 var dropdownMenuButton = document.getElementById("dropdownMenuButtonConvert")
 var dropdownMenuSelector = document.getElementById("dropdownMenuButtonType")
@@ -54,17 +58,30 @@ async function postfixToOthers() {
 
 async function prefixToOthers() {
     if (dropdownMenuButton.classList.contains("postfixConvert") && dropdownMenuSelector.classList.contains("prefixType")) {
+        $( "#reverse" ).addClass( "pseudocodeActive" );
         await reverseAnimation()
+        $( "#reverse" ).removeClass( "pseudocodeActive" );
+
         await postfixToPrefixStack()
+
+        $( "#reverseAgain" ).addClass( "pseudocodeActive" );
         await reverseAnimationOutput()
+        $( "#reverseAgain" ).removeClass( "pseudocodeActive" );
+        
         $('#visualizeBtn').removeClass('btn-outline-secondary');
         $('#visualizeBtn').prop("disabled", false);
     }
 
     if (dropdownMenuButton.classList.contains("infixConvert") && dropdownMenuSelector.classList.contains("prefixType")) {
+        $( "#reverse" ).addClass( "pseudocodeActive" );
         await reverseAnimation()
+        $( "#reverse" ).removeClass( "pseudocodeActive" );
+
         await postfixToInfixStack()
+
+        $( "#reverseAgain" ).addClass( "pseudocodeActive" );
         await reverseAnimationOutput()
+        $( "#reverseAgain" ).removeClass( "pseudocodeActive" );
 
         $('#visualizeBtn').removeClass('btn-outline-secondary');
         $('#visualizeBtn').prop("disabled", false);
@@ -111,6 +128,8 @@ function invalidEquationCheck() {
 }
 
 function renderScene() {
+    $("#sideout").html("");
+
     if ((dropdownMenuButton.classList.contains("postfixConvert") && dropdownMenuSelector.classList.contains("infixType")) 
         || (dropdownMenuButton.classList.contains("prefixConvert") && dropdownMenuSelector.classList.contains("infixType"))) {
         $("#display").html("");
@@ -129,9 +148,27 @@ function renderScene() {
         if ($("#sideout").hasClass("displayNone")) {
             $('#sidebutton').trigger('click');
         }
-        
-        $("#sideout").html("");
         $("#sideout").append(postfixToInfixPseudocode);
+    }
+
+    if(dropdownMenuButton.classList.contains("infixConvert") && dropdownMenuSelector.classList.contains("prefixType")){
+        if ($("#sideout").hasClass("displayNone")) {
+            $('#sidebutton').trigger('click');
+        }
+        $("#sideout").append(prefixToInfixPseudocode);
+    }
+
+    if(dropdownMenuButton.classList.contains("prefixConvert") && dropdownMenuSelector.classList.contains("postfixType")){
+        if ($("#sideout").hasClass("displayNone")) {
+            $('#sidebutton').trigger('click');
+        }
+        $("#sideout").append(postfixToPrefixPseudocode);
+    }
+    if(dropdownMenuButton.classList.contains("postfixConvert") && dropdownMenuSelector.classList.contains("prefixType")){
+        if ($("#sideout").hasClass("displayNone")) {
+            $('#sidebutton').trigger('click');
+        }
+        $("#sideout").append(prefixToPostfixPseudocode);
     }
 }
 

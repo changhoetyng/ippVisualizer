@@ -1,3 +1,4 @@
+const timer = (ms) => new Promise((res) => setTimeout(res, ms));
 export async function reverseAnimation() {
     var inputStack = document.getElementsByClassName("dispExpression");
 
@@ -15,10 +16,10 @@ export async function reverseAnimation() {
 
     testStack.reverse()
 
-    testStack.forEach((element, index) => {
+    testStack.forEach(async (element, index) => {
         inputStack[index].innerHTML = element
     });
-
+    await timer(1000)
 }
 export async function reverseAnimationOutput() {
     var inputStack = document.getElementsByClassName("outExpression");
@@ -40,4 +41,5 @@ export async function reverseAnimationOutput() {
     testStack.forEach((element, index) => {
         inputStack[index].innerHTML = element
     });
+    await timer(1000)
 }
