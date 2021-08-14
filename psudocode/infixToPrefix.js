@@ -1,4 +1,7 @@
-var infixToPostfix = `
+var infixToPrefix = `
+<div class="col pseudocode" id="reverse">
+            reverseTheEquation(input)
+          </div> 
 <div class="col pseudocode" id="lineOne">
 	while(scanCharacterFromLeftToRight){
 </div> 
@@ -87,6 +90,9 @@ while(!stackEmpty){
 <div class="col pseudocode" id="lineTwentySeven">
 }
 </div>
+<div class="col pseudocode" id="reverseAgain">
+            reverseTheEquation(input)
+          </div> 
 `
 
-export default infixToPostfix
+export default infixToPrefix

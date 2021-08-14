@@ -9,6 +9,7 @@ import prefixToInfixPseudocode from "../../psudocode/prefixToInfix.js"
 import postfixToPrefixPseudocode from "../../psudocode/postfixToPrefix.js"
 import prefixToPostfixPseudocode from "../../psudocode/prefixToPostfix.js"
 import infixToPostfixPseudocode from "../../psudocode/infixToPostfix.js"
+import infixToPrefixPseudocode from "../../psudocode/infixToPrefix.js"
 
 var dropdownMenuButton = document.getElementById("dropdownMenuButtonConvert")
 var dropdownMenuSelector = document.getElementById("dropdownMenuButtonType")
@@ -90,9 +91,16 @@ async function prefixToOthers() {
 
 async function infixToOthers() {
     if (dropdownMenuButton.classList.contains("prefixConvert") && dropdownMenuSelector.classList.contains("infixType")) {
+        $( "#reverse" ).addClass( "pseudocodeActive" );
         await reverseAnimation()
+        $( "#reverse" ).removeClass( "pseudocodeActive" );
+
         await infixToPostfixStack()
+
+        $( "#reverseAgain" ).addClass( "pseudocodeActive" );
         await reverseAnimation()
+        $( "#reverseAgain" ).removeClass( "pseudocodeActive" );
+
         $('#visualizeBtn').removeClass('btn-outline-secondary');
         $('#visualizeBtn').prop("disabled", false);
     }
@@ -177,6 +185,13 @@ function renderScene() {
             $('#sidebutton').trigger('click');
         }
         $("#sideout").append(infixToPostfixPseudocode);
+    }
+
+    if(dropdownMenuButton.classList.contains("prefixConvert") && dropdownMenuSelector.classList.contains("infixType")){
+        if ($("#sideout").hasClass("displayNone")) {
+            $('#sidebutton').trigger('click');
+        }
+        $("#sideout").append(infixToPrefixPseudocode);
     }
 }
 

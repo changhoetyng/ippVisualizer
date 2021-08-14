@@ -306,8 +306,8 @@ export default async function infixToPostfixStack() {
             output.push(popElement);
             peekPrec = prec(peek());
           }
-          $("#lineTen").removeClass("conditionalActive");
           $("#lineEleven").removeClass("pseudocodeActive");
+          $("#lineTen").removeClass("conditionalActive");
           push(input.innerHTML);
           if (outBr && inputPrec === peekPrecBefore) {
             stackIndex.push({
@@ -327,7 +327,9 @@ export default async function infixToPostfixStack() {
             });
           }
           insideStack.push(input.innerHTML);
+          $("#lineTwelveA").addClass("pseudocodeActive");
           await inStackAnimation(input);
+          $("#lineTwelveA").removeClass("pseudocodeActive");
           $("#lineNine").removeClass("conditionalActive");
         }
         $("#lineFive").removeClass("conditionalActive");
@@ -376,7 +378,6 @@ export default async function infixToPostfixStack() {
       $("#bracketDisp").append(appendHtml);
       input.classList.remove("scale-up-left");
       input.classList.add("scale-out-left");
-      console.log(indexStack);
       indexStack--;
       input.remove();
       await timer(500);
@@ -456,8 +457,8 @@ export default async function infixToPostfixStack() {
       bracketWrapper[bracketWrapper.length - 1].remove();
 
       gotOutBrac = true;
-      $("#lineSeventeen").addClass("conditionalActive");
-      $("#lineEighteen").addClass("pseudocodeActive");
+      $("#lineSeventeen").removeClass("conditionalActive");
+      $("#lineEighteen").removeClass("pseudocodeActive");
       continue;
     }
 
