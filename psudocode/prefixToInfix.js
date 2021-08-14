@@ -1,27 +1,27 @@
 var prefixToInfix = `
           <div class="col pseudocode" id="reverse">
-            reverseTheEquation()
+            reverseTheEquation(input)
           </div> 
           <div class="col pseudocode" id="lineOne">
             while(scanCharacterFromLeftToRight)
           </div> 
           <div class="col pseudocode paddingFirstIndent" id="lineTwo">
-            if(isOperand)
+            if(isOperand(inputLetter))
           </div>
           <div class="col pseudocode paddingSecondIndent" id="lineThree">
-            Push operand into the stack
+            Push operand into the stack.
           </div>
           <div class="col pseudocode paddingFirstIndent " id="lineFour"> 
-            if(isOperator)
+            if(isOperator(inputLetter))
           </div>
           <div class="col pseudocode paddingSecondIndent " id="lineFive">
-            Pop two values from stack
+            Pop two values from stack.
           </div>
           <div class="col pseudocode paddingSecondIndent" id="lineSix">
-            Concat: "(" + {secondValue} + {operator} + {firstValue} + ")"
+            Concat: "(" + {secondValue} + {inputLetter} + {firstValue} + ")"
           </div>
           <div class="col pseudocode" id="reverseAgain">
-            reverseTheEquation()
+            reverseTheEquation(input)
           </div> 
           ` 
           ;

@@ -16,7 +16,7 @@ export default async function infixToPostfixStack() {
 
   // REPORT
   let firstOps = true;
-  let bracketStackIndex = []
+  let bracketStackIndex = [];
   let stackIndex = [];
   let stack = [];
   let top = 0;
@@ -26,7 +26,8 @@ export default async function infixToPostfixStack() {
   let totalOpsEndBrac = 0;
   let numOfOps = 0;
   let prevNumOps = 0;
-  let gotOutBrac = false
+  let gotOutBrac = false;
+  let insideStack = [];
 
   async function inStackAnimation(input) {
     // operators moving color
@@ -62,7 +63,7 @@ export default async function infixToPostfixStack() {
   }
 
   async function outStackAnimation(axis, ap) {
-    gotOutBrac = false
+    gotOutBrac = false;
     var indexJson = stackIndex[stackIndex.length - 1];
     let input = inputStack[indexJson.index];
 
@@ -147,7 +148,6 @@ export default async function infixToPostfixStack() {
 
   function calcStackMove(input) {
     if (!isEmpty() && prec(peek()) === prec(input)) {
-
       for (var i = stack.length - 1; i >= 0; i--) {
         if (prec(stack[i]) !== prec(input)) {
           stackIndex[i].stackMove += 80;
@@ -156,11 +156,22 @@ export default async function infixToPostfixStack() {
     }
   }
 
+  $("#sideout").animate({ scrollTop: $("#lineOne").height() - 80 }, 250);
+  $("#lineOne").addClass("conditionalActive");
+  await timer(250);
+
   for (var indexStack = 0; indexStack < inputStack.length; indexStack++) {
-    let input = inputStack[indexStack]
+    let input = inputStack[indexStack];
 
     let axis = 0;
     if (input.innerHTML.match(/[A-Z]/i)) {
+      await $("#sideout").animate(
+        { scrollTop: $("#lineTwentyOne").height() + 200 },
+        500
+      );
+      $("#lineTwentyOne").addClass("conditionalActive");
+      $("#lineTwentyTwo").addClass("pseudocodeActive");
+      await timer(500);
 
       firstOps = false;
       //  operands moving color
@@ -218,143 +229,263 @@ export default async function infixToPostfixStack() {
       await timer(duration);
       input.style.color = "black";
       input.style.backgroundColor = "var(--main-color)";
+      $("#lineTwentyOne").removeClass("conditionalActive");
+      $("#lineTwentyTwo").removeClass("pseudocodeActive");
     }
 
     if (input.innerHTML.match(/[+|\-|*|^|\/]/i)) {
-      numOfOps += 1
+      $("#sideout").animate({ scrollTop: $("#lineOne").height() - 80 }, 500);
+      $("#lineTwo").addClass("conditionalActive");
+      await timer(500);
+      numOfOps += 1;
       if (isEmpty()) {
-        calcStackMove(input.innerHTML)
+        $("#sideout").animate({ scrollTop: $("#lineOne").height() - 80 }, 500);
+        $("#lineThree").addClass("conditionalActive");
+        $("#lineFour").addClass("pseudocodeActive");
+        await timer(500);
+
+        calcStackMove(input.innerHTML);
         push(input.innerHTML);
-        stackIndex.push({ index, yValueInputToStack, xValueInputToStack, stackMove: 0, bracOffset: prevNumOps * -80});
+        stackIndex.push({
+          index,
+          yValueInputToStack,
+          xValueInputToStack,
+          stackMove: 0,
+          bracOffset: prevNumOps * -80,
+        });
+        insideStack.push(input.innerHTML);
         await inStackAnimation(input);
+        $("#lineThree").removeClass("conditionalActive");
+        $("#lineFour").removeClass("pseudocodeActive");
       } else {
+        $("#sideout").animate({ scrollTop: $("#lineOne").height() - 80 }, 500);
+        $("#lineFive").addClass("conditionalActive");
+        await timer(500);
         let inputPrec = prec(input.innerHTML);
         let peekPrec = prec(peek());
-        let peekPrecBefore = prec(peek())
+        let peekPrecBefore = prec(peek());
         if (inputPrec > peekPrec) {
-          calcStackMove(input.innerHTML)
+          $("#lineSix").addClass("conditionalActive");
+          $("#lineSeven").addClass("pseudocodeActive");
+          calcStackMove(input.innerHTML);
           push(input.innerHTML);
           if (gotOutBrac) {
-            stackIndex.push({ index, yValueInputToStack, xValueInputToStack, stackMove: 0, bracOffset:  0});
+            stackIndex.push({
+              index,
+              yValueInputToStack,
+              xValueInputToStack,
+              stackMove: 0,
+              bracOffset: 0,
+            });
           } else {
-            stackIndex.push({ index, yValueInputToStack, xValueInputToStack, stackMove: 0, bracOffset: prevNumOps * -80});
+            stackIndex.push({
+              index,
+              yValueInputToStack,
+              xValueInputToStack,
+              stackMove: 0,
+              bracOffset: prevNumOps * -80,
+            });
           }
+          insideStack.push(input.innerHTML);
           await inStackAnimation(input);
+          $("#lineSix").removeClass("conditionalActive");
+          $("#lineSeven").removeClass("pseudocodeActive");
         } else {
-          var ap = xValueInputToOutput2
-          let outBr = gotOutBrac
-          calcStackMove(input.innerHTML)
+          $("#lineNine").addClass("conditionalActive");
+          var ap = xValueInputToOutput2;
+          let outBr = gotOutBrac;
+          calcStackMove(input.innerHTML);
+          $("#lineTen").addClass("conditionalActive");
+          $("#lineEleven").addClass("pseudocodeActive");
           while (inputPrec <= peekPrec && !isEmpty()) {
             numberOfPops += 1;
             axis += 120;
+            insideStack.pop();
             await outStackAnimation(axis, ap);
             const popElement = pop();
             output.push(popElement);
             peekPrec = prec(peek());
-
           }
+          $("#lineTen").removeClass("conditionalActive");
+          $("#lineEleven").removeClass("pseudocodeActive");
           push(input.innerHTML);
-          if(outBr && inputPrec === peekPrecBefore) {
-            stackIndex.push({ index, yValueInputToStack, xValueInputToStack, stackMove: 0, bracOffset: (prevNumOps * -80) + 80});
+          if (outBr && inputPrec === peekPrecBefore) {
+            stackIndex.push({
+              index,
+              yValueInputToStack,
+              xValueInputToStack,
+              stackMove: 0,
+              bracOffset: prevNumOps * -80 + 80,
+            });
           } else {
-            stackIndex.push({ index, yValueInputToStack, xValueInputToStack, stackMove: 0, bracOffset: prevNumOps * -80});
+            stackIndex.push({
+              index,
+              yValueInputToStack,
+              xValueInputToStack,
+              stackMove: 0,
+              bracOffset: prevNumOps * -80,
+            });
           }
-          
+          insideStack.push(input.innerHTML);
           await inStackAnimation(input);
+          $("#lineNine").removeClass("conditionalActive");
         }
+        $("#lineFive").removeClass("conditionalActive");
       }
+      $("#lineTwo").removeClass("conditionalActive");
     }
 
     if (input.innerHTML.match(/[\(]/i)) {
       numOfOpenBrac += 1;
-
-      let tempArray = []
-      let tempStackIndex = []
+      await $("#sideout").animate(
+        { scrollTop: $("#lineFourteen").height() + 200 },
+        500
+      );
+      $("#lineFourteen").addClass("conditionalActive");
+      $("#lineFifteen").addClass("pseudocodeActive");
+      await timer(500);
+      let tempArray = [];
+      let tempStackIndex = [];
       // OPEN BRACKET
       while (!isEmpty()) {
-        tempArray.push(pop())
+        tempArray.push(pop());
         tempStackIndex.push(stackIndex.pop());
       }
 
-      bracketStackIndex.push({ tempArray: tempArray, tempStackIndex: tempStackIndex, numberOfPops: numberOfPops, numOfOps: numOfOps })
-      indexStack--;
+      bracketStackIndex.push({
+        tempArray: tempArray,
+        tempStackIndex: tempStackIndex,
+        numberOfPops: numberOfPops,
+        numOfOps: numOfOps,
+      });
+
       numberOfPops = 0;
       numOfOps = 0;
 
-      $("#bracketDisp").append("<div class='brackets scale-up-left'>(</div>");
+      const appendHtml = `
+      <div class="bracketWrapper">
+        <div class='brackets scale-up-left'>(</div>
+        <div class='positionInStack scale-up-left mt-3'>${
+          insideStack[insideStack.length - 1]
+            ? insideStack[insideStack.length - 1]
+            : "0"
+        }</div>
+      </div>
+      `;
+
+      $("#bracketDisp").append(appendHtml);
       input.classList.remove("scale-up-left");
       input.classList.add("scale-out-left");
+      console.log(indexStack);
+      indexStack--;
       input.remove();
+      await timer(500);
+      $("#lineFourteen").removeClass("conditionalActive");
+      $("#lineFifteen").removeClass("pseudocodeActive");
       continue;
     }
 
     if (input.innerHTML.match(/[\)]/i)) {
+      await $("#sideout").animate(
+        { scrollTop: $("#lineSeventeen").height() + 200 },
+        500
+      );
+      $("#lineSeventeen").addClass("conditionalActive");
+      $("#lineEighteen").addClass("pseudocodeActive");
+      await timer(500);
       var closeBracket = document.getElementsByClassName("brackets");
-      input.classList.remove("scale-up-left");
-      input.classList.add("scale-out-left");
-      input.remove();
-      closeBracket[0].classList.remove("scale-up-left");
-      closeBracket[0].classList.add("scale-out-left");
+      var closeLength = document.getElementsByClassName("positionInStack");
+      var bracketWrapper = document.getElementsByClassName("bracketWrapper");
+
       let axis = 0;
-      var ap = xValueInputToOutput2 + (prevNumOps * 80);
-      var outInBracketAlignment = 0
+      var ap = xValueInputToOutput2 + prevNumOps * 80;
+      var outInBracketAlignment = 0;
       totalOpsEndBrac = 0;
 
       while (!isEmpty()) {
-        totalOpsEndBrac += 1
-        axis += 120
-        await outStackAnimation(axis, ap)
-        pop()
-        outInBracketAlignment -= 40
+        totalOpsEndBrac += 1;
+        axis += 120;
+        insideStack.pop();
+        await outStackAnimation(axis, ap);
+        pop();
+        outInBracketAlignment -= 40;
       }
-      let pushBackStackIndex = bracketStackIndex.pop()
 
-      prevNumOps += numOfOps
+      let pushBackStackIndex = bracketStackIndex.pop();
+
+      prevNumOps += numOfOps;
       numOfOps = pushBackStackIndex.numOfOps;
 
-      numberOfPops = bracketStackIndex.numberOfPops
+      numberOfPops = bracketStackIndex.numberOfPops;
 
-      if(!inputStack[indexStack] || inputStack[indexStack].innerHTML === ")") {
+      if (!inputStack[indexStack] || inputStack[indexStack].innerHTML === ")") {
         for (var i = pushBackStackIndex.tempStackIndex.length; i > 0; i--) {
           let tempPop = pushBackStackIndex.tempStackIndex.pop();
           stackIndex.push(tempPop);
         }
-  
+
         for (var i = pushBackStackIndex.tempArray.length; i > 0; i--) {
-          push(pushBackStackIndex.tempArray.pop())
-          outInBracketAlignment += 40
+          push(pushBackStackIndex.tempArray.pop());
+          outInBracketAlignment += 40;
         }
       } else {
         for (var i = pushBackStackIndex.tempStackIndex.length; i > 0; i--) {
           let tempPop = pushBackStackIndex.tempStackIndex.pop();
-          tempPop.bracOffset += prevNumOps*80
+          tempPop.bracOffset += prevNumOps * 80;
           stackIndex.push(tempPop);
         }
-  
+
         for (var i = pushBackStackIndex.tempArray.length; i > 0; i--) {
-          push(pushBackStackIndex.tempArray.pop())
-          outInBracketAlignment += 40
+          push(pushBackStackIndex.tempArray.pop());
+          outInBracketAlignment += 40;
         }
       }
+      await timer(150);
+      closeBracket[closeBracket.length - 1].classList.remove("scale-up-left");
+      closeBracket[closeBracket.length - 1].classList.add("scale-out-left");
+      closeLength[closeLength.length - 1].classList.remove("scale-up-left");
+      closeLength[closeLength.length - 1].classList.add("scale-out-left");
+      await timer(500);
 
-      closeBracket[0].remove();
       indexStack--;
-      gotOutBrac = true
+      input.classList.remove("scale-up-left");
+      input.classList.add("scale-out-left");
+      input.remove();
+      closeBracket[closeBracket.length - 1].remove();
+      closeLength[closeLength.length - 1].remove();
+      bracketWrapper[bracketWrapper.length - 1].remove();
+
+      gotOutBrac = true;
+      $("#lineSeventeen").addClass("conditionalActive");
+      $("#lineEighteen").addClass("pseudocodeActive");
       continue;
     }
 
     index += 1;
   }
-
+  $("#lineOne").removeClass("conditionalActive");
   let loop = 0;
+
+  if (!isEmpty()) {
+    await $("#sideout").animate(
+      { scrollTop: $("#lineTwentyFive").height() + 500 },
+      500
+    );
+    $("#lineTwentyFive").addClass("conditionalActive");
+    $("#lineTwentySix").addClass("pseudocodeActive");
+    await timer(500);
+  }
 
   while (!isEmpty()) {
     let axis = 0;
-    var ap = xValueInputToOutput2 + (prevNumOps * 80) + loop;
+    var ap = xValueInputToOutput2 + prevNumOps * 80 + loop;
     loop += 80;
-    axis += 120
-    await outStackAnimation(axis, ap)
-    pop()
-
+    axis += 120;
+    insideStack.pop();
+    await outStackAnimation(axis, ap);
+    pop();
   }
+
+  $("#lineTwentyFive").removeClass("conditionalActive");
+  $("#lineTwentySix").removeClass("pseudocodeActive");
 }

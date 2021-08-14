@@ -11,7 +11,10 @@ var infixDisplay = `<div class="d-flex flex-row">
 </div>
 
 <div class="mt-2 w-100 d-flex flex-row" id="bracketDisp" style="margin-left: 92px;">
+    <div>
     <h4 class="mt-2 main-color" style="margin-right: 10px;">Brackets:</h4>
+    <h4 class="mt-2 main-color mt-4" style="margin-right: 10px;">Position in stack:</h4>
+    </div>
 </div>
 </div>
 

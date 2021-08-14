@@ -10,7 +10,7 @@ export async function retrieveFunction() {
       $( "#sideout" ).addClass( "moving" );
       $( "#sideout" ).removeClass( "slideOutRight displayNone");
       $( "#sideout" ).addClass( "slideInRight" );
-      $("#sideout").css("width", "600px");
+      $("#sideout").css("width", "650px");
       $( ".arrow" ).addClass( "right" );
       $( ".arrow" ).removeClass( "left" )
       $( "#sideout" ).removeClass( "moving" );
@@ -172,6 +172,18 @@ function checkInfix(expression) {
 
 function checkPrefix(expression) {
   var expressionChar = expression.charAt(0);
+  for (var i = 0; i < expression.length; i++) {
+    var expressionCharAt = expression.charAt(i);
+
+    if (expressionCharAt.match(/[(]/i)) {
+      return false;
+    }
+
+    if (expressionCharAt.match(/[)]/i)) {
+      return false;
+    }
+  }
+
   if (expressionChar.match(/[+|\-|*|^|\/]/i)) {
     return true;
   } else {
@@ -188,11 +200,11 @@ function checkPostfix(expression) {
     }
 
     if (expressionChar.match(/[(]/i)) {
-      continue;
+      return false;
     }
 
     if (expressionChar.match(/[)]/i)) {
-      continue;
+      return false;
     }
 
     if (expressionChar.match(/[+|\-|*|^|\/]/i)) {

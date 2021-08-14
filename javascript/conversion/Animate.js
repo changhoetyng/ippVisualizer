@@ -8,7 +8,7 @@ import postfixToInfixPseudocode from "../../psudocode/postfixToInfix.js"
 import prefixToInfixPseudocode from "../../psudocode/prefixToInfix.js"
 import postfixToPrefixPseudocode from "../../psudocode/postfixToPrefix.js"
 import prefixToPostfixPseudocode from "../../psudocode/prefixToPostfix.js"
-
+import infixToPostfixPseudocode from "../../psudocode/infixToPostfix.js"
 
 var dropdownMenuButton = document.getElementById("dropdownMenuButtonConvert")
 var dropdownMenuSelector = document.getElementById("dropdownMenuButtonType")
@@ -164,11 +164,19 @@ function renderScene() {
         }
         $("#sideout").append(postfixToPrefixPseudocode);
     }
+
     if(dropdownMenuButton.classList.contains("postfixConvert") && dropdownMenuSelector.classList.contains("prefixType")){
         if ($("#sideout").hasClass("displayNone")) {
             $('#sidebutton').trigger('click');
         }
         $("#sideout").append(prefixToPostfixPseudocode);
+    }
+
+    if(dropdownMenuButton.classList.contains("postfixConvert") && dropdownMenuSelector.classList.contains("infixType")){
+        if ($("#sideout").hasClass("displayNone")) {
+            $('#sidebutton').trigger('click');
+        }
+        $("#sideout").append(infixToPostfixPseudocode);
     }
 }
 

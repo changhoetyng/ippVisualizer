@@ -2,19 +2,19 @@ var postfixToPrefix = `<div class="col pseudocode" id="lineOne">
             while(scanCharacterFromLeftToRight)
           </div> 
           <div class="col pseudocode paddingFirstIndent" id="lineTwo">
-            if(isOperand)
+            if(isOperand(inputLetter))
           </div>
           <div class="col pseudocode paddingSecondIndent" id="lineThree">
-            Push into the stack
+            Push into the stack.
           </div>
           <div class="col pseudocode paddingFirstIndent " id="lineFour"> 
-            if(isOperator)
+            if(isOperator(inputLetter))
           </div>
           <div class="col pseudocode paddingSecondIndent " id="lineFive">
-            Pop two values from stack
+            Pop two values from stack.
           </div>
           <div class="col pseudocode paddingSecondIndent" id="lineSix">
-            Concat: {operator} + {secondValue} + {firstValue}
+            Concat: {operator} + {inputLetter} + {firstValue}
           </div>`;
 
 export default postfixToPrefix
