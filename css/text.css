@@ -8,3 +8,9 @@
     text-align: center;
     font-size: 25px;
 }
+#stackPos{
+    flex-direction: row;
+    align-self: flex-end;
+    margin-left: -42px;
+    margin-bottom: 2px;
+}
