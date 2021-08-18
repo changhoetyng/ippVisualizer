@@ -69,12 +69,9 @@ export default async function infixToPostfixStack() {
     inStack.remove();
   }
 
-  async function openBracket() {
+  async function openBracket(input) {
     // Close Brackets
     xValueInputToStack -= 40;
-    // yValueInputToStack -= 40;
-    // xValueInputToOutput2 -= 40;
-    $("#bottomPanelIn").after(`<div class='dispExpressionEmpty'></div>`);
 
     // Open Brackets
     pop();
@@ -83,8 +80,10 @@ export default async function infixToPostfixStack() {
       .getElementsByClassName("dispExpression");
 
     let inStack = stack[0];
-    // yValueInputToStack += 40;
-    // xValueInputToOutput2 += 40;
+    inStack.classList.add("scale-out-left");
+    input.classList.add("scale-out-left");
+    await timer(1000)
+    $("#bottomPanelIn").after(`<div class='dispExpressionEmpty'></div>`);
     inStack.remove();
   }
 
@@ -259,7 +258,7 @@ export default async function infixToPostfixStack() {
       while (!isEmpty() && peek() !== "(") {
         await outStackAnimation();
       }
-      await openBracket();
+      await openBracket(input);
       input.remove();
       indexStack--;
       continue;
